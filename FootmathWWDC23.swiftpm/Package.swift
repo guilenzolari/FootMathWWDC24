@@ -23,11 +23,12 @@ let package = Package(
             appIcon: .asset("AppIcon"),
             accentColor: .presetColor(.green),
             supportedDeviceFamilies: [
-                .pad
+                .pad,
+                .phone
             ],
             supportedInterfaceOrientations: [
                 .portrait,
-                .portraitUpsideDown(.when(deviceFamilies: [.pad]))
+                .portraitUpsideDown
             ],
             appCategory: .sportsGames
         )
@@ -38,7 +39,7 @@ let package = Package(
             path: ".",
             resources: [
                 .copy("8-bit Arcade In.ttf"),
-                .copy("Sounds/click-botao.mp3")
+                .copy("Resources/Sounds/click-botao.mp3")
             ]
         )
     ]

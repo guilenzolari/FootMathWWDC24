@@ -30,15 +30,8 @@ struct Menu: View {
                 } label: {
                     Image("opcoes")
                         .scaleEffect(0.7)
-                }.padding(.top, -20)
+                }
                 
-                Button {
-                    audioPlayer.playEffect(effect: "click-botao", type: "mp3")
-                    exit(0)
-                } label: {
-                    Image("sair")
-                        .scaleEffect(0.7)
-                }.padding(.top, -20)
                 
             }.padding(.top, 650)
             

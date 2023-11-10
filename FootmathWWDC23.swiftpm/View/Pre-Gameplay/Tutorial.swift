@@ -36,7 +36,7 @@ struct Tutorial: View {
                 
             }
             
-            NavigationLink("",destination: Gameplay(),isActive: $navigantionLinkAtivo)
+//            NavigationLink("",destination: Gameplay(),isActive: $navigantionLinkAtivo)
 
             
         }.navigationBarBackButtonHidden(true)

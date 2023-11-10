@@ -25,7 +25,7 @@ struct EscolhaTimes: View {
             
             Rectangle()
                 .onTapGesture{
-                    gameController.teamChoice = "blue"
+//                    gameController.teamChoice = "blue"
                     isActive = true
                     print("blue")
                 }
@@ -38,7 +38,7 @@ struct EscolhaTimes: View {
             
             Rectangle()
                 .onTapGesture{
-                    gameController.teamChoice = "red"
+//                    gameController.teamChoice = "red"
                     isActive = true
                     print("red")
                 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class HistoriaModel: ObservableObject {
+class HistoriaController: ObservableObject {
     
     @Published var etapaAtual = 0
     
