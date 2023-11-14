@@ -37,7 +37,7 @@ struct Menu: View {
             
 
             
-            NavigationLink("",destination: Historia(),isActive: $navigantionLinkAtivoJogar)
+            NavigationLink("",destination: HistoriaView(),isActive: $navigantionLinkAtivoJogar)
             NavigationLink("",destination: OpcoesView(),isActive: $navigantionLinkAtivoOpcoes)
 
             

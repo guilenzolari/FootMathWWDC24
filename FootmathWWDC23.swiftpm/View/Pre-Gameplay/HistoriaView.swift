@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct Historia: View {
+struct HistoriaView: View {
     
     @State var navigantionLinkAtivo = false
     @EnvironmentObject var audioPlayer:AudioPlayer
@@ -28,13 +28,12 @@ struct Historia: View {
             
             VStack{
                 Text(historia.texto[historia.etapaAtual])
-                    .foregroundColor(.yellow)
+                    .foregroundColor(historia.cores[historia.etapaAtual])
                     .padding(.horizontal, 15)
                     .padding(.top, -350)
                     .font(Font.custom("8-bit Arcade In", size: 70))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .multilineTextAlignment(.center)
-                    .shadow(color: .black, radius: 1)
                 
                 Button {
                     navigantionLinkAtivo = !historia.avancar()
@@ -42,10 +41,11 @@ struct Historia: View {
                 } label: {
                     Image("next button")
                         .padding(.bottom, 100)
+                        .scaleEffect(0.7)
                 }
             }
             
-            NavigationLink("",destination: EscolhaTimes(),isActive: $navigantionLinkAtivo)
+            NavigationLink("",destination: EscolhaTimesView(),isActive: $navigantionLinkAtivo)
             
         }.navigationBarBackButtonHidden(true)
 

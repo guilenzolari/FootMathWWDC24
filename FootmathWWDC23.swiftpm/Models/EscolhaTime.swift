@@ -7,7 +7,7 @@
 
 import Foundation
 
-class GameController: ObservableObject{
-    var escolhaTime: EscolhaTime = EscolhaTime.azul
-    
+enum EscolhaTime{
+    case vermelho
+    case azul
 }

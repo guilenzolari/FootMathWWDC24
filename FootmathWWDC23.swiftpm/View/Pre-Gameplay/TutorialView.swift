@@ -2,14 +2,18 @@ import Foundation
 import SwiftUI
 
 
-struct Tutorial: View {
+struct TutorialView: View {
     
     @State var navigantionLinkAtivo = false
-    @ObservedObject var tutorial = TutorialController()
+    @EnvironmentObject var audioPlayer:AudioPlayer
+    @StateObject var tutorial = TutorialController()
     
     var body: some View {
         
         ZStack{
+            
+            Color.black.edgesIgnoringSafeArea(.all)
+            
             Image(tutorial.infos[tutorial.etapaAtual].background)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -17,26 +21,26 @@ struct Tutorial: View {
 
             Button {
                 navigantionLinkAtivo = !tutorial.avancar()
-                print(tutorial.etapaAtual)
+                audioPlayer.playEffect(effect: "click-botao", type: "mp3")
             } label: {
                 Image(tutorial.infos[tutorial.etapaAtual].imagem)
-                    .padding(.top, 880)
-            }
+                .scaleEffect(0.7)
+            }.padding(.top, 880)
+
 
             VStack{
                 Text(tutorial.infos[tutorial.etapaAtual].texto)
-                    .font(Font.custom("8-bit Arcade In", size:80))
-                    .foregroundColor(colorYellow)
+                    .font(Font.custom("8-bit Arcade In", size: 70))
+                    .foregroundColor(.yellow)
                     .font(.system(size: 40))
                     .padding(.top, 750)
                     .padding(.horizontal, 48)
                     .multilineTextAlignment(.center)
                 
                 Spacer()
-                
             }
             
-//            NavigationLink("",destination: Gameplay(),isActive: $navigantionLinkAtivo)
+            NavigationLink("",destination: Menu(),isActive: $navigantionLinkAtivo)
 
             
         }.navigationBarBackButtonHidden(true)
