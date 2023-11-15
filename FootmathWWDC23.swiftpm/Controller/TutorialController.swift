@@ -20,7 +20,6 @@ class TutorialController: ObservableObject {
     @Published var etapaAtual = 0
     
     func avancar() -> Bool {
-        print(etapaAtual)
         if etapaAtual < infos.count - 1 {
             etapaAtual += 1
             return true
