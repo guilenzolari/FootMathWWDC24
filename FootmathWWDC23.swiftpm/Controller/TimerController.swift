@@ -15,7 +15,7 @@ class TimerModel: ObservableObject {
     }
 
     func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             if self.countdown > 0 {
                 self.countdown -= 1

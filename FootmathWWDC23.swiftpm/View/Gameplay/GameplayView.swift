@@ -11,8 +11,11 @@ struct GameplayView: View {
     @StateObject var timerModel = TimerModel()
     var gameController = GameController()
 
+    init() {
+        gameController.iniciarJogada()
+    }
+
     var body: some View {
-        let contas = Array(gameController.contasMais().prefix(3))
         
         ZStack{
             Image("GameplayBackgound")
@@ -20,7 +23,7 @@ struct GameplayView: View {
                 .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.top)
             
-            Text(contas.joined(separator: " "))
+            Text("\(gameController.numero1) + \(gameController.numero2)")
                 .font(Font.custom("8-bit Arcade In", size: 100))
                 .foregroundColor(.white)
                 .padding(.top, -365)
@@ -31,18 +34,15 @@ struct GameplayView: View {
                 .padding(.bottom, 1000)
                 .padding(.leading, 650)
             
-            ChutesView()
+            ChutesView(gameController: gameController)
             
             Image("ball")
                 .padding(.top, 900)
                 
         }
-        
-        
-
     }
 }
 
-#Preview {
-    GameplayView()
-}
+//#Preview {
+//    GameplayView()
+//}

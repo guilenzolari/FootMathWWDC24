@@ -9,47 +9,33 @@ import SwiftUI
 
 struct ChutesView: View {
     
-    var chutes = ChutesController()
-    var palpites: [Int]
-    var gameController = GameController()
-    
-    init(){
-        self.palpites = [
-            chutes.possibilidadeAleatoria(),
-            chutes.possibilidadeAleatoria(),
-            chutes.possibilidadeAleatoria(),
-            chutes.possibilidadeAleatoria(),
-            chutes.possibilidadeAleatoria(),
-            chutes.possibilidadeAleatoria()
-        ]
-        
-        let posicaoCorreta = chutes.posicaoCorreta()
-        let contasMaisResultado = Int(gameController.contasMais().last!)!
-        self.palpites[chutes.posicaoCorreta()] = contasMaisResultado
-    }
-    
+    var gameController:GameController
 
+    
+    init(gameController:GameController ){
+        self.gameController = gameController
+    }
     
     var body: some View {
         
         VStack{
             HStack{
                 Spacer()
-                Text("\(palpites[0])")
+                Text("\(gameController.palpites[0])")
                 Spacer()
-                Text("\(palpites[1])")
+                Text("\(gameController.palpites[1])")
                 Spacer()
-                Text("\(palpites[2])")
+                Text("\(gameController.palpites[2])")
                 Spacer()
             }.padding(.bottom, 50)
             
             HStack{
                 Spacer()
-                Text("\(palpites[3])")
+                Text("\(gameController.palpites[3])")
                 Spacer()
-                Text("\(palpites[4])")
+                Text("\(gameController.palpites[4])")
                 Spacer()
-                Text("\(palpites[5])")
+                Text("\(gameController.palpites[5])")
                 Spacer()
             }
             
@@ -59,5 +45,5 @@ struct ChutesView: View {
 }
 
 #Preview {
-    ChutesView()
+    ChutesView(gameController: GameController())
 }

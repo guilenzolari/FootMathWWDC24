@@ -13,7 +13,7 @@ struct EscolhaTimesView: View {
     @State var navigantionLinkAtivo = false
     @EnvironmentObject var audioPlayer:AudioPlayer
     @StateObject var historia = HistoriaController()
-    @StateObject var gameController = GameController()
+    var gameController = GameController()
     
     var body: some View{
         
