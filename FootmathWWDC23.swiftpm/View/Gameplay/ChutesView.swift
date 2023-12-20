@@ -10,37 +10,30 @@ import SwiftUI
 struct ChutesView: View {
     
     var gameController:GameController
-
     
+    let linhas = [
+        GridItem(.fixed(3), spacing: 122),
+        GridItem(.fixed(3)),
+    ]
+
     init(gameController:GameController ){
         self.gameController = gameController
     }
-    
-    var body: some View {
         
+    var body: some View {
         VStack{
-            HStack{
-                Spacer()
-                Text("\(gameController.palpites[0])")
-                Spacer()
-                Text("\(gameController.palpites[1])")
-                Spacer()
-                Text("\(gameController.palpites[2])")
-                Spacer()
-            }.padding(.bottom, 50)
-            
-            HStack{
-                Spacer()
-                Text("\(gameController.palpites[3])")
-                Spacer()
-                Text("\(gameController.palpites[4])")
-                Spacer()
-                Text("\(gameController.palpites[5])")
-                Spacer()
-            }
-            
-        }.font(Font.custom("8-bit Arcade In", size: 100))
-            .foregroundColor(.black)
+            LazyHGrid(rows: linhas, spacing: 117,content: {
+                ForEach(0..<gameController.palpites.count, id: \.self) { index in
+                    Text("\(gameController.palpites[index])")
+                        .onTapGesture {
+                            
+                        }
+                }
+            })
+
+        }
+        .font(Font.custom("8-bit Arcade In", size: 100))
+        .foregroundColor(.black)
     }
 }
 

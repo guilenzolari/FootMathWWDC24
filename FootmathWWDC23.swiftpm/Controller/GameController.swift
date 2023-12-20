@@ -16,10 +16,12 @@ class GameController {
     @Published var palpites:[Int] = []
     @Published var palpiteCorreto:Int = 0
     
+
+    
     func iniciarJogada() {
-         numero1 = Int.random(in: 1...10)
-         numero2 = Int.random(in: 1...10)
-         resultado = numero1 + numero2
+        numero1 = Int.random(in: 1...10)
+        numero2 = Int.random(in: 1...10)
+        resultado = numero1 + numero2
         
         self.palpites = [
             chuteAleatorio(),
@@ -33,8 +35,6 @@ class GameController {
         self.palpiteCorreto = posicaoCorreta()
         
         self.palpites[palpiteCorreto] = resultado
-        
-        print(resultado)
     }
     
     func chuteAleatorio() -> Int{

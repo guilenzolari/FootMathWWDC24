@@ -37,7 +37,6 @@ struct GameplayView: View {
             ChutesView(gameController: gameController)
             
             Image("ball")
-                .padding(.top, 900)
                 
         }
     }
