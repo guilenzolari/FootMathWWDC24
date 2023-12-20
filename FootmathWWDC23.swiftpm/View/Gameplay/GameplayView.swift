@@ -36,12 +36,12 @@ struct GameplayView: View {
             
             ChutesView(gameController: gameController)
             
-            Image("ball")
+//            Image("ball")
                 
         }
     }
 }
 
-//#Preview {
-//    GameplayView()
-//}
+#Preview {
+    GameplayView()
+}

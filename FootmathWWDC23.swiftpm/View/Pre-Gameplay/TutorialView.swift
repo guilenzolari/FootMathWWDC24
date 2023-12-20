@@ -40,7 +40,7 @@ struct TutorialView: View {
                 Spacer()
             }
             
-            NavigationLink("",destination: Menu(),isActive: $navigantionLinkAtivo)
+            NavigationLink("",destination: GameplayView(),isActive: $navigantionLinkAtivo)
 
             
         }.navigationBarBackButtonHidden(true)

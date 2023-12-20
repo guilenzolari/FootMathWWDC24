@@ -26,11 +26,16 @@ struct ChutesView: View {
                 ForEach(0..<gameController.palpites.count, id: \.self) { index in
                     Text("\(gameController.palpites[index])")
                         .onTapGesture {
-                            
+                            if(index == gameController.palpiteCorreto){
+                                let novoResultado = ResultadoJogada.acertou
+                                gameController.adicionarResultado(novoResultado)
+                            } else{
+                                let novoResultado = ResultadoJogada.errou
+                                gameController.adicionarResultado(novoResultado)
+                            }
                         }
                 }
             })
-
         }
         .font(Font.custom("8-bit Arcade In", size: 100))
         .foregroundColor(.black)
