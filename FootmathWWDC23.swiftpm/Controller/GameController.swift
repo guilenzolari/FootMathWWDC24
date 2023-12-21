@@ -10,6 +10,8 @@ import Foundation
 class GameController {
     var escolhaTime: EscolhaTime = EscolhaTime.azul
     var resultados: [ResultadoJogada] = []
+    var timerEnds = false
+
     
     @Published var numero1:Int = 0
     @Published var numero2:Int = 0

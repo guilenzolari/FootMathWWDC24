@@ -1,5 +1,10 @@
 import SwiftUI
 
+//TO DO
+//Bola viajando
+//Musica da tela inicial
+//Som de apito ao clicar em play
+
 struct Menu: View {
     @State private var pontoAtual = 0
     @State var navigantionLinkAtivoJogar = false
@@ -13,7 +18,6 @@ struct Menu: View {
                 .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.top)
 
-            Image("ball")
             
             VStack{
                 Button {
@@ -21,26 +25,20 @@ struct Menu: View {
                     audioPlayer.playEffect(effect: "click-botao", type: "mp3")
                 } label: {
                     Image("jogar")
-                        .scaleEffect(0.7)
                 }
             
-                Button {
-                    navigantionLinkAtivoOpcoes = true
-                    audioPlayer.playEffect(effect: "click-botao", type: "mp3")
-                } label: {
-                    Image("opcoes")
-                        .scaleEffect(0.7)
-                }
-                
-                
-            }.padding(.top, 650)
+//                Button {
+//                    navigantionLinkAtivoOpcoes = true
+//                    audioPlayer.playEffect(effect: "click-botao", type: "mp3")
+//                } label: {
+//                    Image("opcoes")
+//                        .scaleEffect(0.7)
+//                }
+            }.padding(.top, 550)
             
-
-            
-            NavigationLink("",destination: HistoriaView(),isActive: $navigantionLinkAtivoJogar)
+            NavigationLink("",destination: GameplayView(),isActive: $navigantionLinkAtivoJogar)
             NavigationLink("",destination: OpcoesView(),isActive: $navigantionLinkAtivoOpcoes)
 
-            
         }.navigationBarBackButtonHidden(true)
     }
 }

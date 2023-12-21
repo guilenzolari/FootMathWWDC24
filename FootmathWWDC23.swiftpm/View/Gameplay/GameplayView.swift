@@ -1,9 +1,7 @@
-//
-//  SwiftUIView.swift
-//  
-//
-//  Created by Guilherme Ferreira Lenzolari on 14/11/23.
-//
+//TO DO
+//Fazer a bolo diminuir de tamanho conforme se move
+//fazer goleiro
+//colocar sons de quando faz gol e erra
 
 import SwiftUI
 
@@ -19,29 +17,27 @@ struct GameplayView: View {
         
         ZStack{
             Image("GameplayBackgound")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.top)
+        
+            Text("\(timerModel.countdown)")
+                .font(Font.custom("8-bit Arcade In", size: 60))
+                .foregroundColor(.white)
+                .padding(.bottom, 640)
+                .padding(.leading, 250)
             
             Text("\(gameController.numero1) + \(gameController.numero2)")
-                .font(Font.custom("8-bit Arcade In", size: 100))
+                .font(Font.custom("8-bit Arcade In", size: 50))
                 .foregroundColor(.white)
-                .padding(.top, -365)
-            
-            Text("\(timerModel.countdown)")
-                .font(Font.custom("8-bit Arcade In", size: 100))
-                .foregroundColor(.white)
-                .padding(.bottom, 1000)
-                .padding(.leading, 650)
-            
+                .padding(.bottom, 405)
+                        
             ChutesView(gameController: gameController)
+                .padding(.bottom, 35)
             
-//            Image("ball")
-                
-        }
-    }
-}
+            Image("ball")
+                .padding(.top, 630)
+            
 
-#Preview {
-    GameplayView()
+        }.navigationBarBackButtonHidden(true)
+    }
+    
 }

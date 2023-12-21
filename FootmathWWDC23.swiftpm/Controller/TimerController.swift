@@ -2,7 +2,7 @@ import SwiftUI
 import Combine
 
 class TimerModel: ObservableObject {
-    @Published var countdown: Int = 600
+    @Published var countdown: Int = 6
     private var timer: Timer?
     private var cancellable: AnyCancellable?
 

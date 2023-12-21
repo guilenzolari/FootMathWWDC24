@@ -18,7 +18,7 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView  {
-               GameplayView()
+                GameplayView()
             }
             .navigationViewStyle(.stack)
             .environmentObject(AudioPlayer())
