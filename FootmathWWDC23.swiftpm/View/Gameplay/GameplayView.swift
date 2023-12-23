@@ -1,5 +1,5 @@
 //TO DO
-//Fazer a bolo diminuir de tamanho conforme se move
+//Fazer a bola diminuir de tamanho conforme se move
 //fazer goleiro
 //colocar sons de quando faz gol e erra
 
@@ -7,19 +7,39 @@ import SwiftUI
 
 struct GameplayView: View {
     @StateObject var timerModel = TimerModel()
-    @State var posicaoBola = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 7 / 8)
+    @State private var botaoApertado = false
+    @State private var posicaoBola = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 7 / 8)
+    @State private var posicaoGoleiro = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 0.6)
+    @State private var tamanhoBola = 1.0
+    @State private var rotacaoGoleiro: Angle = .degrees(0.0)
+    
+    var duracaoAnimacao = 1.0
     var gameController = GameController()
     let linhas = [
         GridItem(.fixed(3), spacing: 60),
         GridItem(.fixed(3))]
-
+    let posicoesGoleiro: [CGPoint] = [
+        CGPoint(x: 90, y: 380),
+        CGPoint(x: 90, y: 440),
+        CGPoint(x: 195, y: 380),
+        CGPoint(x: 195, y: 440),
+        CGPoint(x: 300, y: 380),
+        CGPoint(x: 300, y: 440),
+        CGPoint(x: 90, y: UIScreen.main.bounds.size.height * 0.6)]
+    let posicoesBola: [CGPoint] = [
+        CGPoint(x: 20, y: 350),
+        CGPoint(x: 20, y: 450),
+        CGPoint(x: 195, y: 350),
+        CGPoint(x: 195, y: 450),
+        CGPoint(x: 370, y: 350),
+        CGPoint(x: 370, y: 450)]
     init() {
         gameController.iniciarJogada()
     }
 
     var body: some View {
         ZStack {
-            Image("GameplayBackgound")
+            Image("GameplayBackground")
                 .edgesIgnoringSafeArea(.top)
 
             Text("\(timerModel.countdown)")
@@ -36,12 +56,24 @@ struct GameplayView: View {
                     ForEach(0..<gameController.palpites.count, id: \.self) { index in
                         Text("\(gameController.palpites[index])")
                             .onTapGesture {
-                                if(index == gameController.palpiteCorreto){
-                                    gameController.adicionarResultado(ResultadoJogada.acertou)
-                                    posicaoBola = CGPoint(x: 400, y: 300)
-                                } else{
-                                    gameController.adicionarResultado(ResultadoJogada.errou)
-                                    posicaoBola = CGPoint(x: 100, y: 300)
+
+                                if !botaoApertado{
+                                    botaoApertado = true
+                                    withAnimation(.easeInOut(duration: duracaoAnimacao)){
+                                        posicaoBola = posicoesBola[index]
+                                        tamanhoBola = 0.6
+                                    }
+                                    if(index == gameController.palpiteCorreto){
+                                        gameController.adicionarResultado(ResultadoJogada.acertou)
+                                        withAnimation(.easeInOut(duration: duracaoAnimacao)){
+                                            posicaoGoleiro = posicoesGoleiro[6]
+                                        }
+                                    } else{
+                                        gameController.adicionarResultado(ResultadoJogada.errou)
+                                        withAnimation(.easeInOut(duration: duracaoAnimacao)){
+                                            posicaoGoleiro = posicoesGoleiro[index]
+                                        }
+                                    }
                                 }
                             }
                     }
@@ -49,10 +81,17 @@ struct GameplayView: View {
             }.padding(.bottom, 35)
             .foregroundColor(.black)
 
+            Image("goleiro")
+                .frame(width: 40, height: 80)
+                .position(posicaoGoleiro)
+                .foregroundColor(.red)
+                .rotationEffect(rotacaoGoleiro)
+            
             Image("ball")
                 .position(posicaoBola)
+                .scaleEffect(CGFloat(tamanhoBola))
             
-        }.font(Font.custom("8-bit Arcade In", size: 60))
+        }.font(Font.custom("8-bit Arcade In", size: 55))
         .navigationBarBackButtonHidden(true)
     }
 }

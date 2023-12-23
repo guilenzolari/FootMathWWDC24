@@ -12,7 +12,6 @@ class GameController {
     var resultados: [ResultadoJogada] = []
     var timerEnds = false
 
-    
     @Published var numero1:Int = 0
     @Published var numero2:Int = 0
     @Published var resultado:Int = 0
