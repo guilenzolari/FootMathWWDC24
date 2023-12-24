@@ -21,7 +21,7 @@ struct TutorialView: View {
 
             Button {
                 navigantionLinkAtivo = !tutorial.avancar()
-                audioPlayer.playEffect(effect: "click-botao", type: "mp3")
+                audioPlayer.playEffect(effect: "click-botao", type: "mp3", volume: 1.3)
             } label: {
                 Image(tutorial.infos[tutorial.etapaAtual].imagem)
                 .scaleEffect(0.7)

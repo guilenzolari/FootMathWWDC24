@@ -29,11 +29,11 @@ class AudioPlayer: ObservableObject {
         }
     }
     
-    func playEnviroment (sound: String, type: String){
+    func playMusic (sound: String, type: String, volume: Float){
         if let path = Bundle.main.path(forResource: sound, ofType: type) {
             do {
                 enviromentPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: path))
-                enviromentPlayer?.volume = musicVolume
+                enviromentPlayer?.volume = musicVolume * volume
                 enviromentPlayer?.numberOfLoops = -1
                 enviromentPlayer?.play()
             } catch {
@@ -42,11 +42,11 @@ class AudioPlayer: ObservableObject {
         }
     }
 
-    func playEffect (effect: String, type: String){
+    func playEffect (effect: String, type: String, volume: Float){
         if let path = Bundle.main.path(forResource: effect, ofType: type) {
             do {
                 effectPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: path))
-                effectPlayer?.volume = effectsVolume
+                effectPlayer?.volume = effectsVolume * volume
                 effectPlayer?.play()
             } catch {
                 print ("Audio Player ERROR")

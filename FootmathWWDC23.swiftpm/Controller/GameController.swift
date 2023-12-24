@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Guilherme Ferreira Lenzolari on 13/11/23.
-//
-
 import Foundation
 
 class GameController {
@@ -38,8 +31,12 @@ class GameController {
         self.palpites[palpiteCorreto] = resultado
     }
     
-    func chuteAleatorio() -> Int{
-        return Int.random(in: 1...30)
+    func chuteAleatorio() -> Int {
+        var chute: Int
+        repeat {
+            chute = Int.random(in: 1...30)
+        } while chute == resultado || palpites.contains(chute)
+        return chute
     }
     
     func posicaoCorreta() -> Int {
@@ -49,4 +46,5 @@ class GameController {
     func adicionarResultado(_ novoResultado: ResultadoJogada) {
         resultados.append(novoResultado)
     }
+    
 }

@@ -38,7 +38,7 @@ struct EscolhaTimesView: View {
                 HStack{
                     Button {
                         navigantionLinkAtivo = true
-                        audioPlayer.playEffect(effect: "click-botao", type: "mp3")
+                        audioPlayer.playEffect(effect: "click-botao", type: "mp3", volume: 1.0)
                         gameController.escolhaTime = EscolhaTime.vermelho
                     } label: {
                         Image("red button")
@@ -48,7 +48,7 @@ struct EscolhaTimesView: View {
                     
                     Button {
                         navigantionLinkAtivo = true
-                        audioPlayer.playEffect(effect: "click-botao", type: "mp3")
+                        audioPlayer.playEffect(effect: "click-botao", type: "mp3", volume: 1.0)
                         gameController.escolhaTime = EscolhaTime.azul
 
                     } label: {

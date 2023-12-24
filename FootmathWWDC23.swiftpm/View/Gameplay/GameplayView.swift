@@ -1,12 +1,11 @@
 //TO DO
 //Fazer a bola diminuir de tamanho conforme se move
-//fazer goleiro
-//colocar sons de quando faz gol e erra
 
 import SwiftUI
 
 struct GameplayView: View {
     @StateObject var timerModel = TimerModel()
+    @EnvironmentObject var audioPlayer:AudioPlayer
     @State private var botaoApertado = false
     @State private var posicaoBola = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 7 / 8)
     @State private var posicaoGoleiro = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 0.6)
@@ -41,6 +40,9 @@ struct GameplayView: View {
         ZStack {
             Image("GameplayBackground")
                 .edgesIgnoringSafeArea(.top)
+                .onAppear{
+                    audioPlayer.playMusic(sound: "soccer-stadium", type: "mp3", volume: 0.5)
+                }
 
             Text("\(timerModel.countdown)")
                 .foregroundColor(.white)
@@ -56,19 +58,24 @@ struct GameplayView: View {
                     ForEach(0..<gameController.palpites.count, id: \.self) { index in
                         Text("\(gameController.palpites[index])")
                             .onTapGesture {
-
+    
                                 if !botaoApertado{
                                     botaoApertado = true
+                                    audioPlayer.playEffect(effect: "soccer-kick", type: "mp3", volume: 7.0)
                                     withAnimation(.easeInOut(duration: duracaoAnimacao)){
                                         posicaoBola = posicoesBola[index]
                                         tamanhoBola = 0.6
                                     }
                                     if(index == gameController.palpiteCorreto){
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                                            audioPlayer.playEffect(effect: "goal-scream", type: "mp3", volume: 2.0)}
                                         gameController.adicionarResultado(ResultadoJogada.acertou)
                                         withAnimation(.easeInOut(duration: duracaoAnimacao)){
                                             posicaoGoleiro = posicoesGoleiro[6]
                                         }
                                     } else{
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                                            audioPlayer.playEffect(effect: "missed-goal", type: "mp3", volume: 0.8)}
                                         gameController.adicionarResultado(ResultadoJogada.errou)
                                         withAnimation(.easeInOut(duration: duracaoAnimacao)){
                                             posicaoGoleiro = posicoesGoleiro[index]

@@ -39,7 +39,13 @@ let package = Package(
             path: ".",
             resources: [
                 .copy("8-bit Arcade In.ttf"),
-                .copy("Resources/Sounds/click-botao.mp3")
+                .copy("Resources/Sounds/click-botao.mp3"),
+                .copy("Resources/Sounds/soccer-kick.mp3"),
+                .copy("Resources/Sounds/latin-music.mp3"),
+                .copy("Resources/Sounds/missed-goal.mp3"),
+                .copy("Resources/Sounds/soccer-stadium.mp3"),
+                .copy("Resources/Sounds/goal-scream.mp3"),
+                .copy("Resources/Sounds/apito-futebol.mp3")
             ]
         )
     ]
