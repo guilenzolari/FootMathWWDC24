@@ -2,7 +2,7 @@ import SwiftUI
 import Combine
 
 class TimerModel: ObservableObject {
-    @Published var countdown: Int = 60
+    @Published var tempo: Int = 60
     private var timer: Timer?
     private var cancellable: AnyCancellable?
 
@@ -17,15 +17,15 @@ class TimerModel: ObservableObject {
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             guard let self = self else { return }
-            if self.countdown > 0 {
-                self.countdown -= 1
+            if self.tempo > 0 {
+                self.tempo -= 1
             } else {
                 self.stopTimer()
             }
         }
 
         // Utilize Combine para refletir as mudanças no contador
-        cancellable = $countdown
+        cancellable = $tempo
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard self != nil else { return }

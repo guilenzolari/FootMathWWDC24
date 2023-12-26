@@ -12,7 +12,8 @@ struct GameplayView: View {
     @State private var tamanhoBola = 1.0
     @State private var rotacaoGoleiro: Angle = .degrees(0.0)
     
-    var duracaoAnimacao = 1.0
+    var duracaoAnimacaoDepoisChute = 1.0
+    var duracaoAnimacaoDepoisDefesa = 0.7
     var gameController = GameController()
     let linhas = [
         GridItem(.fixed(3), spacing: 60),
@@ -44,7 +45,7 @@ struct GameplayView: View {
                     audioPlayer.playMusic(sound: "soccer-stadium", type: "mp3", volume: 0.5)
                 }
 
-            Text("\(timerModel.countdown)")
+            Text("\(timerModel.tempo)")
                 .foregroundColor(.white)
                 .padding(.bottom, 640)
                 .padding(.leading, 250)
@@ -62,23 +63,41 @@ struct GameplayView: View {
                                 if !botaoApertado{
                                     botaoApertado = true
                                     audioPlayer.playEffect(effect: "soccer-kick", type: "mp3", volume: 7.0)
-                                    withAnimation(.easeInOut(duration: duracaoAnimacao)){
+                                    withAnimation(.easeInOut(duration: duracaoAnimacaoDepoisChute)){
                                         posicaoBola = posicoesBola[index]
                                         tamanhoBola = 0.6
+                                    }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                        gameController.iniciarJogada()
+                                        botaoApertado = false
+                                        posicaoGoleiro = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 0.6)
+                                        posicaoBola = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 7 / 8)
                                     }
                                     if(index == gameController.palpiteCorreto){
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                                             audioPlayer.playEffect(effect: "goal-scream", type: "mp3", volume: 2.0)}
                                         gameController.adicionarResultado(ResultadoJogada.acertou)
-                                        withAnimation(.easeInOut(duration: duracaoAnimacao)){
-                                            posicaoGoleiro = posicoesGoleiro[6]
+                                        withAnimation(.easeInOut(duration: duracaoAnimacaoDepoisChute)){
+            
+                                            posicaoGoleiro = posicoesGoleiro[gameController.posicaoGoleiroAcerto(index: index) ?? 6]
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                                                withAnimation(.easeInOut(duration: duracaoAnimacaoDepoisDefesa)){
+                                                    posicaoGoleiro = CGPoint(x: posicaoGoleiro.x, y: posicoesGoleiro[1].y)
+                                                }
+                                            }
                                         }
                                     } else{
+                                        gameController.adicionarResultado(ResultadoJogada.errou)
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                                             audioPlayer.playEffect(effect: "missed-goal", type: "mp3", volume: 0.8)}
-                                        gameController.adicionarResultado(ResultadoJogada.errou)
-                                        withAnimation(.easeInOut(duration: duracaoAnimacao)){
+                                        withAnimation(.easeInOut(duration: duracaoAnimacaoDepoisChute)){
                                             posicaoGoleiro = posicoesGoleiro[index]
+                                        }
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                                            withAnimation(.easeInOut(duration: duracaoAnimacaoDepoisDefesa)){
+                                                posicaoBola = CGPoint(x: posicaoBola.x, y: posicoesBola[1].y)
+                                                posicaoGoleiro = CGPoint(x: posicaoGoleiro.x, y: posicoesGoleiro[1].y)
+                                            }
                                         }
                                     }
                                 }

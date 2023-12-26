@@ -43,6 +43,12 @@ class GameController {
         return Int.random(in: 0...5)
     }
     
+    func posicaoGoleiroAcerto(index: Int) -> Int?{
+        var posicoes = [0,1,2,3,4,5]
+        posicoes.remove(at: index)
+        return posicoes.randomElement()
+    }
+    
     func adicionarResultado(_ novoResultado: ResultadoJogada) {
         resultados.append(novoResultado)
     }
