@@ -1,8 +1,9 @@
 import SwiftUI
 import Combine
 
-class TimerModel: ObservableObject {
+class TimerController: ObservableObject {
     @Published var tempo: Int = 60
+    @Published var navigationLinkAtivo = false
     private var timer: Timer?
     private var cancellable: AnyCancellable?
 
@@ -38,6 +39,7 @@ class TimerModel: ObservableObject {
         timer = nil
         cancellable?.cancel()
         cancellable = nil
+        navigationLinkAtivo = true
     }
 }
 

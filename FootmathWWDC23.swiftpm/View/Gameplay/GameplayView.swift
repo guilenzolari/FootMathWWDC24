@@ -5,7 +5,7 @@
 import SwiftUI
 
 struct GameplayView: View {
-    @StateObject var timerModel = TimerModel()
+    @StateObject var timerController = TimerController()
     @EnvironmentObject var audioPlayer:AudioPlayer
     @State private var botaoApertado = false
     @State private var posicaoBola = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 7 / 8)
@@ -46,14 +46,14 @@ struct GameplayView: View {
                     audioPlayer.playMusic(sound: "soccer-stadium", type: "mp3", volume: 0.5)
                 }
 
-            Text("\(timerModel.tempo)")
+            Text("\(timerController.tempo)")
                 .foregroundColor(.white)
                 .padding(.bottom, 640)
                 .padding(.leading, 250)
 
             Text("\(gameController.numero1) + \(gameController.numero2)")
                 .foregroundColor(.white)
-                .padding(.bottom, 405)
+                .padding(.bottom, 380)
             
             VStack{
                 LazyHGrid(rows: linhas, spacing: 60,content: {
@@ -106,7 +106,7 @@ struct GameplayView: View {
                             }
                     }
                 })
-            }.padding(.bottom, 35)
+            }.padding(.bottom, 5)
             .foregroundColor(.black)
 
             Image("goleiro")
@@ -119,7 +119,9 @@ struct GameplayView: View {
                 .position(posicaoBola)
                 .scaleEffect(CGFloat(tamanhoBola))
             
-        }.font(Font.custom("8-bit Arcade In", size: 55))
+            NavigationLink("",destination: Menu(),isActive: $timerController.navigationLinkAtivo)
+            
+        }.font(Font.custom("Minecraftia-Regular", size: 30))
         .navigationBarBackButtonHidden(true)
     }
 }
