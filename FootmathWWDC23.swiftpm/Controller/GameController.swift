@@ -13,6 +13,7 @@ class GameController {
     
     
     func iniciarJogada() {
+        print("Iniciou nova jogada")
         numero1 = Int.random(in: 1...10)
         numero2 = Int.random(in: 1...10)
         resultado = numero1 + numero2

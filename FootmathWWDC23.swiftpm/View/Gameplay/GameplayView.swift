@@ -1,5 +1,6 @@
 //TO DO
 //Fazer a bola diminuir de tamanho conforme se move
+//trocar fonte
 
 import SwiftUI
 
@@ -72,6 +73,7 @@ struct GameplayView: View {
                                         botaoApertado = false
                                         posicaoGoleiro = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 0.6)
                                         posicaoBola = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 7 / 8)
+                                        tamanhoBola = 1.0
                                     }
                                     if(index == gameController.palpiteCorreto){
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
