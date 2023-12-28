@@ -9,7 +9,7 @@ struct GameplayView: View {
     @EnvironmentObject var audioPlayer:AudioPlayer
     @State private var botaoApertado = false
     @State private var posicaoBola = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 7 / 8)
-    @State private var posicaoGoleiro = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 0.6)
+    @State private var posicaoGoleiro = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 0.65)
     @State private var tamanhoBola = 1.0
     @State private var rotacaoGoleiro: Angle = .degrees(0.0)
     
