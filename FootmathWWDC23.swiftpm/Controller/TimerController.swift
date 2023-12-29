@@ -6,6 +6,7 @@ class TimerController: ObservableObject {
     @Published var navigationLinkAtivo = false
     private var timer: Timer?
     private var cancellable: AnyCancellable?
+    @EnvironmentObject var audioPlayer:AudioPlayer
 
     init() {
         startTimer()

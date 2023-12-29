@@ -45,7 +45,7 @@ struct HistoriaView: View {
                 }
             }
             
-            NavigationLink("",destination: EscolhaTimesView(),isActive: $navigantionLinkAtivo)
+            NavigationLink("",destination: GameplayView() ,isActive: $navigantionLinkAtivo)
             
         }.navigationBarBackButtonHidden(true)
 
