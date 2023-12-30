@@ -1,6 +1,4 @@
 //TO DO
-//Fazer a bola diminuir de tamanho conforme se move
-//trocar fonte
 
 import SwiftUI
 
@@ -9,7 +7,7 @@ struct GameplayView: View {
     @EnvironmentObject var audioPlayer:AudioPlayer
     @State private var botaoApertado = false
     @State private var posicaoBola = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 7 / 8)
-    @State private var posicaoGoleiro = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 0.65)
+    @State private var posicaoGoleiro = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 0.62)
     @State private var tamanhoBola = 1.0
     @State private var rotacaoGoleiro: Angle = .degrees(0.0)
     @State private var opacidadeGoleiro = 1.0
@@ -37,7 +35,7 @@ struct GameplayView: View {
         CGPoint(x: 370, y: 350),
         CGPoint(x: 370, y: 450)]
     init() {
-        gameController.iniciarJogada(operacao: "soma")
+        gameController.iniciarJogada(operacao: gameController.operacao[gameController.indiceFaseJogo])
     }
 
     var body: some View {
@@ -54,7 +52,7 @@ struct GameplayView: View {
                 .padding(.bottom, 640)
                 .padding(.leading, 250)
 
-            Text("\(gameController.numero1) + \(gameController.numero2)")
+            Text(gameController.operacaoMatematica)
                 .foregroundColor(.white)
                 .padding(.bottom, 380)
             
@@ -74,7 +72,7 @@ struct GameplayView: View {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                                         gameController.iniciarJogada(operacao: "soma")
                                         botaoApertado = false
-                                        posicaoGoleiro = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 0.6)
+                                        posicaoGoleiro = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 0.62)
                                         posicaoBola = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 7 / 8)
                                         tamanhoBola = 1.0
                                         opacidadeGoleiro = 1.0

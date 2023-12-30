@@ -15,8 +15,9 @@ class GameController {
     @Published var resultado:Int = 0
     @Published var palpites:[Int] = []
     @Published var palpiteCorreto:Int = 0
-    @Published var indiceFaseJogo: Int = 0
+    @Published var indiceFaseJogo: Int = 2
     @Published var navigationLinkAtivo = false
+    @Published var operacaoMatematica: String = ""
 
     
     func iniciarJogada(operacao: String) {
@@ -25,21 +26,22 @@ class GameController {
         
         if operacao == "soma" {
             resultado = soma(numero1: numero1, numero2: numero2)
+            operacaoMatematica = "\(numero1) + \(numero2)"
         } else if operacao == "subtracao" {
             resultado = subtracao(numero1: numero1, numero2: numero2)
+            operacaoMatematica = "\(numero1) - \(numero2)"
         } else if operacao == "multiplicacao" {
             resultado = multiplicacao(numero1: numero1, numero2: numero2)
+            operacaoMatematica = "\(numero1) x \(numero2)"
         }
-        
-        resultado = numero1 + numero2
-        
+                
         self.palpites = [
-            chuteAleatorio(),
-            chuteAleatorio(),
-            chuteAleatorio(),
-            chuteAleatorio(),
-            chuteAleatorio(),
-            chuteAleatorio()
+            chuteAleatorio(operacao: operacao),
+            chuteAleatorio(operacao: operacao),
+            chuteAleatorio(operacao: operacao),
+            chuteAleatorio(operacao: operacao),
+            chuteAleatorio(operacao: operacao),
+            chuteAleatorio(operacao: operacao)
         ]
         
         self.palpiteCorreto = posicaoCorreta()
@@ -52,12 +54,13 @@ class GameController {
         return resultado
     }
     
-    func subtracao(numero1: Int, numero2: Int)-> Int{
-        let resultado = numero1 - numero2
-        if resultado < 0 {
-            return subtracao(numero1:  numero1, numero2: numero1)
-        } else{
-            return resultado
+    func subtracao(numero1: Int, numero2: Int) -> Int {
+        if numero1 <= numero2 {
+            self.numero1 = Int.random(in: 1...10)
+            self.numero2 = Int.random(in: 1...10)
+            return subtracao(numero1: self.numero1, numero2: self.numero2)
+        } else {
+            return numero1 - numero2
         }
     }
     
@@ -66,11 +69,25 @@ class GameController {
         return resultado
     }
     
-    func chuteAleatorio() -> Int {
+    func chuteAleatorio(operacao: String) -> Int {
         var chute: Int
+        var intervalo: ClosedRange<Int>
+
+        switch operacao {
+        case "soma":
+            intervalo = 1...20
+        case "subtracao":
+            intervalo = 1...10
+        case "multiplicacao":
+            intervalo = 1...100
+        default:
+            fatalError("Operação não suportada")
+        }
+
         repeat {
-            chute = Int.random(in: 1...30)
+            chute = Int.random(in: intervalo)
         } while chute == resultado || palpites.contains(chute)
+
         return chute
     }
     

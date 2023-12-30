@@ -7,6 +7,7 @@ class TimerController: ObservableObject {
     private var timer: Timer?
     private var cancellable: AnyCancellable?
     @EnvironmentObject var audioPlayer:AudioPlayer
+    var gameController = GameController()
 
     init() {
         startTimer()
