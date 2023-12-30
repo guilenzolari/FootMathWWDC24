@@ -4,18 +4,33 @@ class GameController {
     var escolhaTime: EscolhaTime = EscolhaTime.azul
     var resultados: [ResultadoJogada] = []
     var timerEnds = false
+    
+    let background = ["GameplayBackground1", "GameplayBackground2", "GameplayBackground3"]
+    let goleiro = ["goleiro1", "goleiro2", "goleiro3"]
+    let goleiroSegurandoBola = ["goleiroSegurandoBola1", "goleiroSegurandoBola2", "goleiroSegurandoBola3"]
+    let operacao = ["soma", "subtracao", "multiplicacao"]
 
     @Published var numero1:Int = 0
     @Published var numero2:Int = 0
     @Published var resultado:Int = 0
     @Published var palpites:[Int] = []
     @Published var palpiteCorreto:Int = 0
+    @Published var indiceFaseJogo: Int = 0
+    @Published var navigationLinkAtivo = false
+
     
-    
-    func iniciarJogada() {
-        print("Iniciou nova jogada")
+    func iniciarJogada(operacao: String) {
         numero1 = Int.random(in: 1...10)
         numero2 = Int.random(in: 1...10)
+        
+        if operacao == "soma" {
+            resultado = soma(numero1: numero1, numero2: numero2)
+        } else if operacao == "subtracao" {
+            resultado = subtracao(numero1: numero1, numero2: numero2)
+        } else if operacao == "multiplicacao" {
+            resultado = multiplicacao(numero1: numero1, numero2: numero2)
+        }
+        
         resultado = numero1 + numero2
         
         self.palpites = [
@@ -30,6 +45,25 @@ class GameController {
         self.palpiteCorreto = posicaoCorreta()
         
         self.palpites[palpiteCorreto] = resultado
+    }
+    
+    func soma(numero1: Int, numero2: Int) -> Int{
+        let resultado = numero1 + numero2
+        return resultado
+    }
+    
+    func subtracao(numero1: Int, numero2: Int)-> Int{
+        let resultado = numero1 - numero2
+        if resultado < 0 {
+            return subtracao(numero1:  numero1, numero2: numero1)
+        } else{
+            return resultado
+        }
+    }
+    
+    func multiplicacao(numero1: Int, numero2: Int)-> Int{
+        let resultado = numero1 * numero2
+        return resultado
     }
     
     func chuteAleatorio() -> Int {
@@ -53,5 +87,8 @@ class GameController {
     func adicionarResultado(_ novoResultado: ResultadoJogada) {
         resultados.append(novoResultado)
     }
-    
+ 
+    func proximoIndice(){
+        indiceFaseJogo += 1
+    }
 }

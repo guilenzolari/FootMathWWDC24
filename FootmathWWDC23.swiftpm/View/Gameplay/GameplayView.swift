@@ -37,12 +37,12 @@ struct GameplayView: View {
         CGPoint(x: 370, y: 350),
         CGPoint(x: 370, y: 450)]
     init() {
-        gameController.iniciarJogada()
+        gameController.iniciarJogada(operacao: "soma")
     }
 
     var body: some View {
         ZStack {
-            Image("GameplayBackground")
+            Image(gameController.background[gameController.indiceFaseJogo])
                 .edgesIgnoringSafeArea(.top)
                 .onAppear{
                     audioPlayer.playMusic(sound: "soccer-stadium", type: "mp3", volume: 0.5)
@@ -72,7 +72,7 @@ struct GameplayView: View {
                                         tamanhoBola = 0.6
                                     }
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                                        gameController.iniciarJogada()
+                                        gameController.iniciarJogada(operacao: "soma")
                                         botaoApertado = false
                                         posicaoGoleiro = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 0.6)
                                         posicaoBola = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 7 / 8)
@@ -116,9 +116,9 @@ struct GameplayView: View {
             .foregroundColor(.black)
 
             ZStack{
-                Image("goleiro")
+                Image(gameController.goleiro[gameController.indiceFaseJogo])
                     .opacity(opacidadeGoleiro)
-                Image("goleiroSegurandoBola")
+                Image(gameController.goleiroSegurandoBola[gameController.indiceFaseJogo])
                     .opacity(opacidadeGoleiroSegurandoBola)
                 
             }.frame(width: 40, height: 80)
