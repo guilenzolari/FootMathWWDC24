@@ -33,7 +33,7 @@ struct Menu: View {
             }.padding(.top, 550)
             .disabled(!botaoAtivado)
             
-            NavigationLink("",destination: GameplayView(),isActive: $navigantionLinkAtivoJogar)
+            NavigationLink("",destination: PlanetasView(),isActive: $navigantionLinkAtivoJogar)
 
         }.navigationBarBackButtonHidden(true)
     }
