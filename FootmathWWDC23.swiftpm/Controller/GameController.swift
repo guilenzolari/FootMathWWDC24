@@ -1,8 +1,7 @@
 import Foundation
 
 class GameController {
-    var escolhaTime: EscolhaTime = EscolhaTime.azul
-    var resultados: [ResultadoJogada] = []
+    
     var timerEnds = false
     
     let background = ["GameplayBackground1", "GameplayBackground2", "GameplayBackground3"]
@@ -10,12 +9,14 @@ class GameController {
     let goleiroSegurandoBola = ["goleiroSegurandoBola1", "goleiroSegurandoBola2", "goleiroSegurandoBola3"]
     let operacao = ["soma", "subtracao", "multiplicacao"]
 
+    @Published var resultados: [ResultadoJogada] = [ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio]
     @Published var numero1:Int = 0
     @Published var numero2:Int = 0
     @Published var resultado:Int = 0
     @Published var palpites:[Int] = []
     @Published var palpiteCorreto:Int = 0
-    @Published var indiceFaseJogo: Int = 2
+    @Published var indiceFaseJogo: Int = 0
+    @Published var indiceContaFase: Int = 0
     @Published var navigationLinkAtivo = false
     @Published var operacaoMatematica: String = ""
 
@@ -24,15 +25,19 @@ class GameController {
         numero1 = Int.random(in: 1...10)
         numero2 = Int.random(in: 1...10)
         
-        if operacao == "soma" {
+        
+        switch operacao{
+        case "soma":
             resultado = soma(numero1: numero1, numero2: numero2)
             operacaoMatematica = "\(numero1) + \(numero2)"
-        } else if operacao == "subtracao" {
+        case "subtracao":
             resultado = subtracao(numero1: numero1, numero2: numero2)
             operacaoMatematica = "\(numero1) - \(numero2)"
-        } else if operacao == "multiplicacao" {
+        case "multiplicacao":
             resultado = multiplicacao(numero1: numero1, numero2: numero2)
             operacaoMatematica = "\(numero1) x \(numero2)"
+        default:
+            print("Erro ao selecionar a operação")
         }
                 
         self.palpites = [
@@ -101,11 +106,18 @@ class GameController {
         return posicoes.randomElement()
     }
     
-    func adicionarResultado(_ novoResultado: ResultadoJogada) {
-        resultados.append(novoResultado)
+    func armazenarResultado(_ novoResultado: ResultadoJogada) {
+        resultados.remove(at: indiceContaFase)
+        resultados.insert(novoResultado, at: indiceContaFase)
+        indiceContaFase += 1
+        proximaFase()
     }
  
-    func proximoIndice(){
-        indiceFaseJogo += 1
+    func proximaFase(){
+        if indiceContaFase == 5{
+            indiceFaseJogo += 1
+            indiceContaFase = 0
+            resultados = [ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio]
+        }
     }
 }

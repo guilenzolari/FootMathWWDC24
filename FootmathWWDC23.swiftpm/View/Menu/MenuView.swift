@@ -2,8 +2,6 @@ import SwiftUI
 
 //TO DO
 //Bola viajando
-//Musica da tela inicial
-//Som de apito ao clicar em play
 
 struct Menu: View {
     @State private var pontoAtual = 0

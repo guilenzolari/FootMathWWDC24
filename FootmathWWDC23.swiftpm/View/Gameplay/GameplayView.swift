@@ -46,11 +46,29 @@ struct GameplayView: View {
                     audioPlayer.playMusic(sound: "soccer-stadium", type: "mp3", volume: 0.5)
                     audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 0.1)
                 }
-
-            Text("\(timerController.tempo)")
-                .foregroundColor(.white)
-                .padding(.bottom, 640)
-                .padding(.leading, 250)
+            
+            HStack{
+                ZStack{
+                    Image("scoreboardBack")
+                    HStack(spacing: 12){
+                        ForEach(gameController.resultados, id: \.self) {resultado in
+                            switch resultado {
+                            case ResultadoJogada.acertou:
+                                Image("GreenSignal")
+                            case ResultadoJogada.errou:
+                                Image("RedSignal")
+                            case ResultadoJogada.vazio:
+                                Image("GraySignal")
+                            }
+                        }
+                    }
+                }
+                    .padding(.bottom, 20)
+                Spacer()
+                Text("\(timerController.tempo)")
+                    .foregroundColor(.white)
+            }.padding(.bottom, 640)
+            .padding(.horizontal, 22)
 
             Text(gameController.operacaoMatematica)
                 .foregroundColor(.white)
@@ -70,7 +88,7 @@ struct GameplayView: View {
                                         tamanhoBola = 0.6
                                     }
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                                        gameController.iniciarJogada(operacao: "soma")
+                                        gameController.iniciarJogada(operacao: gameController.operacao[gameController.indiceFaseJogo])
                                         botaoApertado = false
                                         posicaoGoleiro = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 0.62)
                                         posicaoBola = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 7 / 8)
@@ -79,9 +97,11 @@ struct GameplayView: View {
                                         opacidadeGoleiroSegurandoBola = 0.0
                                     }
                                     if(index == gameController.palpiteCorreto){
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                            gameController.armazenarResultado(ResultadoJogada.acertou)
+                                        }
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                                             audioPlayer.playEffect(effect: "goal-scream", type: "mp3", volume: 2.0)}
-                                        gameController.adicionarResultado(ResultadoJogada.acertou)
                                         withAnimation(.easeInOut(duration: duracaoAnimacaoDepoisChute)){
                                             posicaoGoleiro = posicoesGoleiro[gameController.posicaoGoleiroAcerto(index: index) ?? 6]
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
@@ -91,7 +111,8 @@ struct GameplayView: View {
                                             }
                                         }
                                     } else{
-                                        gameController.adicionarResultado(ResultadoJogada.errou)
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                            gameController.armazenarResultado(ResultadoJogada.errou)}
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                                             audioPlayer.playEffect(effect: "missed-goal", type: "mp3", volume: 0.8)}
                                         withAnimation(.easeInOut(duration: duracaoAnimacaoDepoisChute)){
