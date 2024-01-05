@@ -7,6 +7,8 @@ class GameController {
     let background = ["GameplayBackground1", "GameplayBackground2", "GameplayBackground3"]
     let goleiro = ["goleiro1", "goleiro2", "goleiro3"]
     let goleiroSegurandoBola = ["goleiroSegurandoBola1", "goleiroSegurandoBola2", "goleiroSegurandoBola3"]
+    let goleiroPerdeu = ["goleiroPerdeu1", "goleiroPerdeu3", "goleiroPerdeu3"]
+
     let operacao = ["soma", "subtracao", "multiplicacao"]
 
     @Published var resultados: [ResultadoJogada] = [ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio]
@@ -110,7 +112,6 @@ class GameController {
         resultados.remove(at: indiceContaFase)
         resultados.insert(novoResultado, at: indiceContaFase)
         indiceContaFase += 1
-        proximaFase()
     }
  
     func proximaFase(){
