@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct PlacarView: View {
-    var gameController = GameController()
-    
+    @EnvironmentObject var gameController:GameController
+
     var body: some View{
         
         ZStack{

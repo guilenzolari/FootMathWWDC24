@@ -1,7 +1,14 @@
 #  To do
-- fazer animação da bola na tela inicial
+- Fazer views da história
+- Fazer view de quando se ganha
+- Fazer view de quando se perde
+- Arrumar bug da navegação
+- Arrumar bug do ForEach
+- Fazer views do tutorial
+
 - Refatorar GameplayView
 - Refatorar planetas view func animacaoFoguete
+
 
 # Done
 - Refazer a função scoreboard retirando todos os ifs

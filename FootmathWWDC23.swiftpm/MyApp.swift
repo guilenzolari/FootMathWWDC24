@@ -4,6 +4,9 @@ import CoreText
 @main
 struct MyApp: App {
     
+    @StateObject var gameController = GameController()
+    @StateObject var audioPlayer = AudioPlayer()
+    
     init() {
         if let fontURL = Bundle.main.url(forResource: "8-bit Arcade In", withExtension: "ttf") {
             do {
@@ -29,7 +32,9 @@ struct MyApp: App {
                 GameplayView()
             }
             .navigationViewStyle(.stack)
-            .environmentObject(AudioPlayer())
+            .environmentObject(audioPlayer)
+            .environmentObject(gameController)
+
         }
     }
 }

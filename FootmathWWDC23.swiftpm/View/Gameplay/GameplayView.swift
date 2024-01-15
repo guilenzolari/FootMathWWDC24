@@ -5,19 +5,19 @@ import SwiftUI
 struct GameplayView: View {
     @StateObject var timerController = TimerController()
     @EnvironmentObject var audioPlayer:AudioPlayer
-    @State private var botaoApertado = false
-    @State private var posicaoBola = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 7 / 8)
-    @State private var posicaoGoleiro = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 0.62)
-    @State private var tamanhoBola = 1.0
-    @State private var rotacaoGoleiro: Angle = .degrees(0.0)
+    @EnvironmentObject var gameController:GameController
+    @State var botaoApertado = false
+    @State var posicaoBola = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 7 / 8)
+    @State var posicaoGoleiro = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 0.62)
+    @State var tamanhoBola = 1.0
+    @State var rotacaoGoleiro: Angle = .degrees(0.0)
     
-    @State private var imagemGoleiro: Image
-    var imagemGoleiroParado: Image
-    var imagemGoleiroSegurandoBola: Image
-    var imagemGoleiroPerdeu: Image
+    @State var imagemGoleiro : Image!
+    @State var imagemGoleiroParado: Image!
+    @State var imagemGoleiroSegurandoBola: Image!
+    @State var imagemGoleiroPerdeu: Image!
     var duracaoAnimacaoDepoisChute = 1.0
     var duracaoAnimacaoDepoisDefesa = 0.7
-    var gameController = GameController()
     
     let linhas = [
         GridItem(.fixed(3), spacing: 60),
@@ -38,14 +38,14 @@ struct GameplayView: View {
         CGPoint(x: 370, y: 350),
         CGPoint(x: 370, y: 450)]
     
-    init() {
-        gameController.iniciarJogada(operacao: gameController.operacao[gameController.indiceFaseJogo])
-        imagemGoleiro = Image(gameController.goleiro[gameController.indiceFaseJogo])
-        imagemGoleiroParado = Image(gameController.goleiro[gameController.indiceFaseJogo])
-        imagemGoleiroSegurandoBola = Image(gameController.goleiroSegurandoBola[gameController.indiceFaseJogo])
-        imagemGoleiroPerdeu = Image(gameController.goleiroPerdeu[gameController.indiceFaseJogo])
-
-    }
+//    init() {
+////        gameController.iniciarJogada(operacao: gameController.operacao[gameController.indiceFaseJogo])
+////        imagemGoleiro = Image(gameController.goleiro[gameController.indiceFaseJogo])
+////        imagemGoleiroParado = Image(gameController.goleiro[gameController.indiceFaseJogo])
+////        imagemGoleiroSegurandoBola = Image(gameController.goleiroSegurandoBola[gameController.indiceFaseJogo])
+////        imagemGoleiroPerdeu = Image(gameController.goleiroPerdeu[gameController.indiceFaseJogo])
+//
+//    }
 
     var body: some View {
         ZStack {
@@ -152,10 +152,18 @@ struct GameplayView: View {
                 .scaleEffect(CGFloat(tamanhoBola))
             
             
-            NavigationLink("",destination: Menu(),isActive: $timerController.navigationLinkAtivo)
+            NavigationLink("",destination: MenuView(),isActive: $timerController.navigationLinkAtivo)
+            NavigationLink("",destination: PlanetasView(),isActive: $gameController.navigationLinkProximaFase)
+
             
         }.font(Font.custom("Minecraftia-Regular", size: 30))
         .navigationBarBackButtonHidden(true)
+        .onAppear {
+            gameController.iniciarJogada(operacao: gameController.operacao[gameController.indiceFaseJogo])
+            imagemGoleiro = Image(gameController.goleiro[gameController.indiceFaseJogo])
+            imagemGoleiroParado = Image(gameController.goleiro[gameController.indiceFaseJogo])
+            imagemGoleiroSegurandoBola = Image(gameController.goleiroSegurandoBola[gameController.indiceFaseJogo])
+            imagemGoleiroPerdeu = Image(gameController.goleiroPerdeu[gameController.indiceFaseJogo])
+        }
     }
 }
-

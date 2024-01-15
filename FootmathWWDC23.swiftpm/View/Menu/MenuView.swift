@@ -1,9 +1,6 @@
 import SwiftUI
 
-//TO DO
-//Bola viajando
-
-struct Menu: View {
+struct MenuView: View {
     @State private var pontoAtual = 0
     @State var navigantionLinkAtivoJogar = false
     @State var botaoAtivado = true
