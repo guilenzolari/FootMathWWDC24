@@ -4,6 +4,7 @@ struct PlanetasView: View {
     
     @EnvironmentObject var audioPlayer: AudioPlayer
     @EnvironmentObject var gameController:GameController
+    
     let posicoesFoguete = [
         CGPoint(x: 260, y: 120),
         CGPoint(x: 270, y: 300),
@@ -13,11 +14,8 @@ struct PlanetasView: View {
     let raio: [CGFloat] = [30.0, 40.0, 35.0]
     let tempoTotal: [Double] = [4.1, 3.8, 5.2]
     
-    @State private var foguetePosition: CGPoint!
-    @State private var navigationLinkAtivo = false
-    
-//    init() {
-//    }
+    @State var foguetePosition: CGPoint = .zero
+    @State var navigationLinkAtivo = false
     
     var body: some View {
         ZStack {
@@ -36,7 +34,9 @@ struct PlanetasView: View {
             NavigationLink("", destination: GameplayView(), isActive: $navigationLinkAtivo)
         }
         .navigationBarBackButtonHidden(true)
-
+        .onAppear{
+            foguetePosition = posicoesFoguete[gameController.indiceFaseJogo]
+        }
     }
     
     func animacaoFoguete(raio: CGFloat, posicao: CGPoint, tempoTotal: Double) {

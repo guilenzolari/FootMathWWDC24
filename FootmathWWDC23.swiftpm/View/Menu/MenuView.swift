@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct MenuView: View {
-    @State private var pontoAtual = 0
     @State var navigantionLinkAtivoJogar = false
     @State var botaoAtivado = true
     @EnvironmentObject var audioPlayer:AudioPlayer

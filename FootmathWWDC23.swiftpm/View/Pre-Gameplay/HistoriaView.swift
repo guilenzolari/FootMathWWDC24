@@ -13,7 +13,7 @@ struct HistoriaView: View {
     @State var navigantionLinkAtivo = false
     @EnvironmentObject var audioPlayer:AudioPlayer
 
-    @StateObject var historia = HistoriaController()
+    @StateObject var historia = HistoriaViewModel()
     
     var body: some View{
         

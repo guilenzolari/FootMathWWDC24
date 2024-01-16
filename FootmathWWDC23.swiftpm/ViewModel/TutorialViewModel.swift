@@ -7,7 +7,7 @@
 
 import Foundation
 
-class TutorialController: ObservableObject {
+class TutorialViewModel: ObservableObject {
     
     @Published var infos: [TutorialModel] = [
     TutorialModel(background: "tutorial 6.1", texto: "But first, a quick tutorial", imagem: "next button"),

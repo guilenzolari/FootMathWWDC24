@@ -4,8 +4,11 @@ import SwiftUI
 
 struct GameplayView: View {
     @StateObject var timerController = TimerController()
-    @EnvironmentObject var audioPlayer:AudioPlayer
-    @EnvironmentObject var gameController:GameController
+    @StateObject var gameplayViewModel = GameplayViewModel()
+    
+    @EnvironmentObject var audioPlayer: AudioPlayer
+    @EnvironmentObject var gameController: GameController
+    
     @State var botaoApertado = false
     @State var posicaoBola = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 7 / 8)
     @State var posicaoGoleiro = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 0.62)
@@ -37,19 +40,10 @@ struct GameplayView: View {
         CGPoint(x: 195, y: 450),
         CGPoint(x: 370, y: 350),
         CGPoint(x: 370, y: 450)]
-    
-//    init() {
-////        gameController.iniciarJogada(operacao: gameController.operacao[gameController.indiceFaseJogo])
-////        imagemGoleiro = Image(gameController.goleiro[gameController.indiceFaseJogo])
-////        imagemGoleiroParado = Image(gameController.goleiro[gameController.indiceFaseJogo])
-////        imagemGoleiroSegurandoBola = Image(gameController.goleiroSegurandoBola[gameController.indiceFaseJogo])
-////        imagemGoleiroPerdeu = Image(gameController.goleiroPerdeu[gameController.indiceFaseJogo])
-//
-//    }
 
     var body: some View {
         ZStack {
-            Image(gameController.background[gameController.indiceFaseJogo])
+            Image(gameplayViewModel.background[gameController.indiceFaseJogo])
                 .edgesIgnoringSafeArea(.top)
                 .onAppear{
                     audioPlayer.playMusic(sound: "soccer-stadium", type: "mp3", volume: 0.5)
@@ -79,14 +73,14 @@ struct GameplayView: View {
             }.padding(.bottom, 640)
             .padding(.horizontal, 22)
 
-            Text(gameController.operacaoMatematica)
+            Text(gameplayViewModel.operacaoMatematica)
                 .foregroundColor(.white)
                 .padding(.bottom, 380)
             
             VStack{
                 LazyHGrid(rows: linhas, spacing: 60,content: {
-                    ForEach(0..<gameController.palpites.count, id: \.self) { index in
-                        Text("\(gameController.palpites[index])")
+                    ForEach(0..<gameplayViewModel.palpites.count, id: \.self) { index in
+                        Text("\(gameplayViewModel.palpites[index])")
                             .onTapGesture {
     
                                 if !botaoApertado{
@@ -97,7 +91,7 @@ struct GameplayView: View {
                                         tamanhoBola = 0.6
                                     }
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                                        gameController.iniciarJogada(operacao: gameController.operacao[gameController.indiceFaseJogo])
+                                        gameplayViewModel.iniciarJogada(operacao: gameplayViewModel.operacao[gameController.indiceFaseJogo])
                                         botaoApertado = false
                                         posicaoGoleiro = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 0.62)
                                         posicaoBola = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 7 / 8)
@@ -105,14 +99,14 @@ struct GameplayView: View {
                                         imagemGoleiro = imagemGoleiroParado
                                         gameController.proximaFase()
                                     }
-                                    if(index == gameController.palpiteCorreto){
+                                    if(index == gameplayViewModel.palpiteCorreto){
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                                             audioPlayer.playEffect(effect: "goal-scream", type: "mp3", volume: 2.0)
                                             gameController.armazenarResultado(ResultadoJogada.acertou)
                                         }
 
                                         withAnimation(.easeInOut(duration: duracaoAnimacaoDepoisChute)){
-                                            posicaoGoleiro = posicoesGoleiro[gameController.posicaoGoleiroAcerto(index: index) ?? 6]
+                                            posicaoGoleiro = posicoesGoleiro[gameplayViewModel.posicaoGoleiroAcerto(index: index) ?? 6]
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                                                 imagemGoleiro = imagemGoleiroPerdeu
                                                 withAnimation(.easeInOut(duration: duracaoAnimacaoDepoisDefesa)){
@@ -151,19 +145,17 @@ struct GameplayView: View {
                 .position(posicaoBola)
                 .scaleEffect(CGFloat(tamanhoBola))
             
-            
-            NavigationLink("",destination: MenuView(),isActive: $timerController.navigationLinkAtivo)
             NavigationLink("",destination: PlanetasView(),isActive: $gameController.navigationLinkProximaFase)
 
             
         }.font(Font.custom("Minecraftia-Regular", size: 30))
         .navigationBarBackButtonHidden(true)
-        .onAppear {
-            gameController.iniciarJogada(operacao: gameController.operacao[gameController.indiceFaseJogo])
-            imagemGoleiro = Image(gameController.goleiro[gameController.indiceFaseJogo])
-            imagemGoleiroParado = Image(gameController.goleiro[gameController.indiceFaseJogo])
-            imagemGoleiroSegurandoBola = Image(gameController.goleiroSegurandoBola[gameController.indiceFaseJogo])
-            imagemGoleiroPerdeu = Image(gameController.goleiroPerdeu[gameController.indiceFaseJogo])
+        .onAppear{
+            gameplayViewModel.iniciarJogada(operacao: gameplayViewModel.operacao[gameController.indiceFaseJogo])
+            imagemGoleiro = Image(gameplayViewModel.goleiro[gameController.indiceFaseJogo])
+            imagemGoleiroParado = Image(gameplayViewModel.goleiro[gameController.indiceFaseJogo])
+            imagemGoleiroSegurandoBola = Image(gameplayViewModel.goleiroSegurandoBola[gameController.indiceFaseJogo])
+            imagemGoleiroPerdeu = Image(gameplayViewModel.goleiroPerdeu[gameController.indiceFaseJogo])
         }
     }
 }

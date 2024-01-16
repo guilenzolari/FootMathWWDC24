@@ -1,3 +1,7 @@
+Refactor
+- logias nas views
+- valores fixos para movimentar objetos
+
 #  To do
 - Fazer views da história
 - Fazer view de quando se ganha

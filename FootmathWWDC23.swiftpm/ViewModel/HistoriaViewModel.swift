@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class HistoriaController: ObservableObject {
+class HistoriaViewModel: ObservableObject {
     
     @Published var etapaAtual = 0
     

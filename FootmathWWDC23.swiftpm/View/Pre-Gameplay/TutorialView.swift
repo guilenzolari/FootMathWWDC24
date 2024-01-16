@@ -6,7 +6,7 @@ struct TutorialView: View {
     
     @State var navigantionLinkAtivo = false
     @EnvironmentObject var audioPlayer:AudioPlayer
-    @StateObject var tutorial = TutorialController()
+    @StateObject var tutorial = TutorialViewModel()
     
     var body: some View {
         
