@@ -2,7 +2,7 @@ import SwiftUI
 import Combine
 
 class TimerController: ObservableObject {
-    @Published var tempo: Int = 60
+    @Published var tempo: Int = 40
     @Published var navigationLinkAtivo = false
     private var timer: Timer?
     private var cancellable: AnyCancellable?

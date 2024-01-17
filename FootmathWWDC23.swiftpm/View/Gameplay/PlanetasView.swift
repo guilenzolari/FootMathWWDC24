@@ -22,7 +22,7 @@ struct PlanetasView: View {
             Image("PlanetasBackground")
                 .edgesIgnoringSafeArea(.top)
                 .onAppear {
-                    audioPlayer.playMusic(sound: "space-sound", type: "mp3", volume: 3.5)
+                    audioPlayer.playMusic(sound: "rocket-sound", type: "mp3", volume: 3.5)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                         animacaoFoguete(raio: raio[gameController.indiceFaseJogo], posicao: foguetePosition, tempoTotal: tempoTotal[gameController.indiceFaseJogo])
                     }

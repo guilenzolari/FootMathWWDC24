@@ -25,27 +25,23 @@ struct HistoriaView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.top)
+                .onAppear{
+                    audioPlayer.playEffect(effect: historia.sounds[historia.etapaAtual], type: "mp3", volume: 1.0)
+                }
             
             VStack{
-                Text(historia.texto[historia.etapaAtual])
-                    .foregroundColor(historia.cores[historia.etapaAtual])
-                    .padding(.horizontal, 15)
-                    .padding(.top, -350)
-                    .font(Font.custom("8-bit Arcade In", size: 70))
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .multilineTextAlignment(.center)
                 
                 Button {
                     navigantionLinkAtivo = !historia.avancar()
                     audioPlayer.playEffect(effect: "click-botao", type: "mp3", volume: 1.0)
+                    audioPlayer.playEffect(effect: historia.sounds[historia.etapaAtual], type: "mp3", volume: 1.0)
                 } label: {
                     Image("next button")
-                        .padding(.bottom, 100)
-                        .scaleEffect(0.7)
+                        .padding(.top, 600)
                 }
             }
             
-            NavigationLink("",destination: GameplayView() ,isActive: $navigantionLinkAtivo)
+            NavigationLink("",destination: PlanetasView() ,isActive: $navigantionLinkAtivo)
             
         }.navigationBarBackButtonHidden(true)
 

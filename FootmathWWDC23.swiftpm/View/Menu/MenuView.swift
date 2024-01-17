@@ -21,13 +21,14 @@ struct MenuView: View {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                         navigantionLinkAtivoJogar = true}
                     botaoAtivado = false
+                    audioPlayer.stopAudio()
                 } label: {
                     Image("jogar")
                 }
             }.padding(.top, 550)
             .disabled(!botaoAtivado)
             
-            NavigationLink("",destination: PlanetasView(),isActive: $navigantionLinkAtivoJogar)
+            NavigationLink("",destination: HistoriaView(),isActive: $navigantionLinkAtivoJogar)
 
         }.navigationBarBackButtonHidden(true)
     }

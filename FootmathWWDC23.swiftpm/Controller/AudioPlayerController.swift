@@ -54,6 +54,9 @@ class AudioPlayer: ObservableObject {
         }
     }
     
-    
+    func stopAudio(){
+        enviromentPlayer?.volume = 0
+        effectPlayer?.volume = 0
+    }
 }
 

@@ -19,6 +19,7 @@ class GameController: ObservableObject {
     
     func proximaFase(){
         if indiceContaFase == 5{
+            timerController.stopTimer()
             navigationLinkProximaFase = true
             indiceFaseJogo += 1
             indiceContaFase = 0
