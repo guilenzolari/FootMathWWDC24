@@ -5,7 +5,7 @@ class GameController: ObservableObject {
     
     var timerController = TimerController()
     var timerEnds = false
-    var navigationLinkProximaFase = false
+    @Published var navigationLinkProximaFase = false
         
     @Published var resultados: [ResultadoJogada] = [ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio]
     @Published var indiceFaseJogo: Int = 0
@@ -19,10 +19,11 @@ class GameController: ObservableObject {
     
     func proximaFase(){
         if indiceContaFase == 5{
-            timerController.stopTimer()
-            navigationLinkProximaFase = true
             indiceFaseJogo += 1
             indiceContaFase = 0
+            timerController.stopTimer()
+            timerController.tempo = timerController.tempoTotalTimer
+            navigationLinkProximaFase = false
             resultados = [ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio]
         }
     }

@@ -31,7 +31,7 @@ struct PlanetasView: View {
             Image("Foguete")
                 .position(foguetePosition)
             
-            NavigationLink("", destination: GameplayView(), isActive: $navigationLinkAtivo)
+            NavigationLink("", destination: GameplayView(), isActive: $gameController.navigationLinkProximaFase)
         }
         .navigationBarBackButtonHidden(true)
         .onAppear{
@@ -57,7 +57,7 @@ struct PlanetasView: View {
             if tempo >= tempoTotal {
                 timer.invalidate()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                    navigationLinkAtivo = true
+                    gameController.navigationLinkProximaFase = true
                 }
             }
         }

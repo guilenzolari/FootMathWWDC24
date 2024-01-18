@@ -145,9 +145,6 @@ struct GameplayView: View {
                 .position(posicaoBola)
                 .scaleEffect(CGFloat(tamanhoBola))
             
-            NavigationLink("",destination: PlanetasView(),isActive: $gameController.navigationLinkProximaFase)
-
-            
         }.font(Font.custom("Minecraftia-Regular", size: 30))
         .navigationBarBackButtonHidden(true)
         .onAppear{
