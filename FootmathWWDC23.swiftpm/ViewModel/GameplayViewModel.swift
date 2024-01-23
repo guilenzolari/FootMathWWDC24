@@ -1,38 +1,31 @@
-//
-//  File.swift
-//  
-//
-//  Created by Guilherme Ferreira Lenzolari on 15/01/24.
-//
-
 import Foundation
 
-class GameplayViewModel: ObservableObject{
- 
+class GameplayViewModel: ObservableObject {
+    
     let background = ["GameplayBackground1", "GameplayBackground2", "GameplayBackground3"]
     let goleiro = ["goleiro1", "goleiro2", "goleiro3"]
     let goleiroSegurandoBola = ["goleiroSegurandoBola1", "goleiroSegurandoBola2", "goleiroSegurandoBola3"]
     let goleiroPerdeu = ["goleiroPerdeu1", "goleiroPerdeu2", "goleiroPerdeu3"]
     let operacao = ["soma", "subtracao", "multiplicacao"]
     
-    @Published var numero1:Int = 0
-    @Published var numero2:Int = 0
-    @Published var resultado:Int = 0
-    @Published var palpites:[Int] = []
-    @Published var palpiteCorreto:Int = 0
+    @Published var numero1: Int = 0
+    @Published var numero2: Int = 0
+    @Published var resultado: Int = 0
+    @Published var palpites: [Int] = [0, 0, 0, 0, 0, 0]
+    @Published var palpiteCorreto: Int = 0
     @Published var operacaoMatematica: String = ""
     
     func iniciarJogada(operacao: String) {
         numero1 = Int.random(in: 1...10)
         numero2 = Int.random(in: 1...10)
         
-        switch operacao{
+        switch operacao {
         case "soma":
             resultado = soma(numero1: numero1, numero2: numero2)
-            operacaoMatematica = "\(numero1) + \(numero2)"
+            operacaoMatematica = "\(numero1) + \(numero2) = ?"
         case "subtracao":
             resultado = subtracao(numero1: numero1, numero2: numero2)
-            operacaoMatematica = "\(numero1) - \(numero2)"
+            operacaoMatematica = "\(numero1) - \(numero2) = ?"
         case "multiplicacao":
             resultado = multiplicacao(numero1: numero1, numero2: numero2)
             operacaoMatematica = "\(numero1) x \(numero2)"
@@ -40,21 +33,19 @@ class GameplayViewModel: ObservableObject{
             print("Erro ao selecionar a operação")
         }
         
-        self.palpites = [
-            chuteAleatorio(operacao: operacao),
-            chuteAleatorio(operacao: operacao),
-            chuteAleatorio(operacao: operacao),
-            chuteAleatorio(operacao: operacao),
-            chuteAleatorio(operacao: operacao),
-            chuteAleatorio(operacao: operacao)
-        ]
-        
-        self.palpiteCorreto = posicaoCorreta()
-        
-        self.palpites[palpiteCorreto] = resultado
+        var usedPalpites: [Int] = []
+        for i in 0..<palpites.count {
+            let newChute = chuteAleatorio(operacao: operacao, usedPalpites: usedPalpites)
+            usedPalpites.append(newChute)
+            palpites[i] = newChute
+        }
+
+        palpiteCorreto = posicaoCorreta()
+
+        palpites[palpiteCorreto] = resultado
     }
     
-    func soma(numero1: Int, numero2: Int) -> Int{
+    func soma(numero1: Int, numero2: Int) -> Int {
         let resultado = numero1 + numero2
         return resultado
     }
@@ -69,12 +60,12 @@ class GameplayViewModel: ObservableObject{
         }
     }
     
-    func multiplicacao(numero1: Int, numero2: Int)-> Int{
+    func multiplicacao(numero1: Int, numero2: Int) -> Int {
         let resultado = numero1 * numero2
         return resultado
     }
     
-    func chuteAleatorio(operacao: String) -> Int {
+    func chuteAleatorio(operacao: String, usedPalpites: [Int]) -> Int {
         var chute: Int
         var intervalo: ClosedRange<Int>
         
@@ -91,7 +82,7 @@ class GameplayViewModel: ObservableObject{
         
         repeat {
             chute = Int.random(in: intervalo)
-        } while chute == resultado || palpites.contains(chute)
+        } while chute == resultado || usedPalpites.contains(chute)
         
         return chute
     }
@@ -100,10 +91,10 @@ class GameplayViewModel: ObservableObject{
         return Int.random(in: 0...5)
     }
     
-    func posicaoGoleiroAcerto(index: Int) -> Int?{
-        var posicoes = [0,1,2,3,4,5]
+    func posicaoGoleiroAcerto(index: Int) -> Int? {
+        var posicoes = [0, 1, 2, 3, 4, 5]
         posicoes.remove(at: index)
         return posicoes.randomElement()
     }
-    
 }
+

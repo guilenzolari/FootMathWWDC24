@@ -22,16 +22,12 @@ struct OpcoesView: View {
                 .edgesIgnoringSafeArea(.top)
                 .blur(radius: 10.0)
             
-            
-            
             Rectangle()
                 .background(Color.black)
                 .cornerRadius(50)
                 .opacity(0.7)
                 .padding(.horizontal, 100)
                 .padding(.vertical, 300)
-
-        
             
             VStack(spacing: 80){
                 
@@ -39,7 +35,6 @@ struct OpcoesView: View {
                     Text("Efeitos")
                     Slider(value: $audioPlayer.effectsVolume, in: 0...2)
                 }
-                
                 
                 HStack(spacing: 40){
                     Text("Música")

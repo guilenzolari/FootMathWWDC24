@@ -40,7 +40,7 @@ struct GameplayView: View {
         CGPoint(x: 195, y: 450),
         CGPoint(x: 370, y: 350),
         CGPoint(x: 370, y: 450)]
-
+    
     var body: some View {
         ZStack {
             Image(gameplayViewModel.background[gameController.indiceFaseJogo])
@@ -66,13 +66,27 @@ struct GameplayView: View {
                         }
                     }
                 }
-                    .padding(.bottom, 20)
+                .padding(.bottom, 20)
+                
                 Spacer()
+                
                 Text("\(timerController.tempo)")
                     .foregroundColor(.white)
             }.padding(.bottom, 640)
-            .padding(.horizontal, 22)
+                .padding(.horizontal, 22)
+//                .onReceive(timerController.$timerIsOver) { isOver in
+//                    if isOver {
+//                        gameController.proximaFase(tempo: timerController.tempo)
+//                    }
+//                }
+//                .onChange(of: timerController.tempo){
+//                    gameController.proximaFase(tempo: timerController.tempo)
+//                }
 
+                .onChange(of: timerController.tempo) { newTempo in
+                    gameController.fimDaJogada(tempo: newTempo)
+                }
+            
             Text(gameplayViewModel.operacaoMatematica)
                 .foregroundColor(.white)
                 .padding(.bottom, 380)
@@ -82,7 +96,7 @@ struct GameplayView: View {
                     ForEach(0..<gameplayViewModel.palpites.count, id: \.self) { index in
                         Text("\(gameplayViewModel.palpites[index])")
                             .onTapGesture {
-    
+                                
                                 if !botaoApertado{
                                     botaoApertado = true
                                     audioPlayer.playEffect(effect: "soccer-kick", type: "mp3", volume: 7.0)
@@ -97,14 +111,13 @@ struct GameplayView: View {
                                         posicaoBola = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height * 7 / 8)
                                         tamanhoBola = 1.0
                                         imagemGoleiro = imagemGoleiroParado
-                                        gameController.proximaFase()
                                     }
                                     if(index == gameplayViewModel.palpiteCorreto){
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                                             audioPlayer.playEffect(effect: "goal-scream", type: "mp3", volume: 2.0)
                                             gameController.armazenarResultado(ResultadoJogada.acertou)
                                         }
-
+                                        
                                         withAnimation(.easeInOut(duration: duracaoAnimacaoDepoisChute)){
                                             posicaoGoleiro = posicoesGoleiro[gameplayViewModel.posicaoGoleiroAcerto(index: index) ?? 6]
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
@@ -134,9 +147,9 @@ struct GameplayView: View {
                     }
                 })
             }.padding(.bottom, 5)
-            .foregroundColor(.black)
-
-                imagemGoleiro
+                .foregroundColor(.black)
+            
+            imagemGoleiro
                 .frame(width: 40, height: 80)
                 .position(posicaoGoleiro)
                 .rotationEffect(rotacaoGoleiro)
@@ -145,14 +158,23 @@ struct GameplayView: View {
                 .position(posicaoBola)
                 .scaleEffect(CGFloat(tamanhoBola))
             
+            NavigationLink("",
+                           destination: GameOverView()
+                .environmentObject(timerController),
+                           isActive: $gameController.navigationLinkGameOverView)
+            
+            NavigationLink("",
+                           destination: VitoriaFasesView(),
+                           isActive: $gameController.navigationLinkVitoriaFasesView)
+            
         }.font(Font.custom("Minecraftia-Regular", size: 30))
-        .navigationBarBackButtonHidden(true)
-        .onAppear{
-            gameplayViewModel.iniciarJogada(operacao: gameplayViewModel.operacao[gameController.indiceFaseJogo])
-            imagemGoleiro = Image(gameplayViewModel.goleiro[gameController.indiceFaseJogo])
-            imagemGoleiroParado = Image(gameplayViewModel.goleiro[gameController.indiceFaseJogo])
-            imagemGoleiroSegurandoBola = Image(gameplayViewModel.goleiroSegurandoBola[gameController.indiceFaseJogo])
-            imagemGoleiroPerdeu = Image(gameplayViewModel.goleiroPerdeu[gameController.indiceFaseJogo])
-        }
+            .navigationBarBackButtonHidden(true)
+            .onAppear{
+                gameplayViewModel.iniciarJogada(operacao: gameplayViewModel.operacao[gameController.indiceFaseJogo])
+                imagemGoleiro = Image(gameplayViewModel.goleiro[gameController.indiceFaseJogo])
+                imagemGoleiroParado = Image(gameplayViewModel.goleiro[gameController.indiceFaseJogo])
+                imagemGoleiroSegurandoBola = Image(gameplayViewModel.goleiroSegurandoBola[gameController.indiceFaseJogo])
+                imagemGoleiroPerdeu = Image(gameplayViewModel.goleiroPerdeu[gameController.indiceFaseJogo])
+            }
     }
 }

@@ -3,9 +3,12 @@ import SwiftUI
 
 class GameController: ObservableObject {
     
-    var timerController = TimerController()
+  //  var timerController = TimerController()
     var timerEnds = false
     @Published var navigationLinkProximaFase = false
+    @Published var navigationLinkGameOverView = false
+    @Published var navigationLinkVitoriaFasesView = false
+
         
     @Published var resultados: [ResultadoJogada] = [ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio]
     @Published var indiceFaseJogo: Int = 0
@@ -17,19 +20,37 @@ class GameController: ObservableObject {
         indiceContaFase += 1
     }
     
-    func proximaFase(){
-        if indiceContaFase == 5{
-            indiceFaseJogo += 1
-            indiceContaFase = 0
-            timerController.stopTimer()
-            timerController.tempo = timerController.tempoTotalTimer
-            navigationLinkProximaFase = false
-            resultados = [ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio]
+    func fimDaJogada(tempo: Int) {
+        if indiceContaFase == 5 || tempo == 0 {
+            if indiceFaseJogo == 2 && contadorDeAcertos() >= 3 {
+                navigationLinkVitoriaFasesView = true
+            }else if contadorDeAcertos() >= 3 {
+                proximaFase()
+            }else {
+                gameOver()
+            }
         }
     }
     
-    func contadorDeAcertos(resultados: [ResultadoJogada]) -> Int {
+    func contadorDeAcertos() -> Int {
         let resultadosFiltrado = resultados.filter{ $0 == ResultadoJogada.acertou}
+        print(resultadosFiltrado.count)
         return resultadosFiltrado.count
+    }
+    
+    func resetarJogo(){
+        indiceContaFase = 0
+        resultados = [ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio]
+    }
+    
+    func proximaFase(){
+        indiceFaseJogo += 1
+        resetarJogo()
+        navigationLinkProximaFase = false
+        }
+    
+    func gameOver(){
+        navigationLinkGameOverView = true
+        resetarJogo()
     }
 }

@@ -5,14 +5,17 @@ class TimerController: ObservableObject {
     var tempoTotalTimer = 40
     @Published var tempo: Int!
     @Published var navigationLinkAtivo = false
+    @Published var timerIsOver = false
     private var timer: Timer?
     private var cancellable: AnyCancellable?
+    private var timerIsOverCancellable: AnyCancellable?
     @EnvironmentObject var audioPlayer:AudioPlayer
     @EnvironmentObject var gameController:GameController
 
     init() {
         startTimer()
-        tempo = tempoTotalTimer
+        
+        
     }
 
     deinit {
@@ -28,9 +31,19 @@ class TimerController: ObservableObject {
                 self.stopTimer()
             }
         }
+        
+        tempo = tempoTotalTimer
+        timerIsOver = false
 
         // Utilize Combine para refletir as mudanças no contador
         cancellable = $tempo
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard self != nil else { return }
+                // Faça algo quando o contador mudar, se necessário
+            }
+        
+        timerIsOverCancellable = $timerIsOver
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard self != nil else { return }
@@ -43,7 +56,9 @@ class TimerController: ObservableObject {
         timer = nil
         cancellable?.cancel()
         cancellable = nil
-        navigationLinkAtivo = true
+        timerIsOver = true
+        timerIsOverCancellable?.cancel()
+        timerIsOverCancellable = nil
     }
 }
 
