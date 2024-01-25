@@ -20,6 +20,8 @@ struct PlanetasView: View {
     var body: some View {
         ZStack {
             Image("PlanetasBackground")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.top)
                 .onAppear {
                     audioPlayer.playMusic(sound: "rocket-sound", type: "mp3", volume: 3.5)

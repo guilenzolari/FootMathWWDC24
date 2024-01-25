@@ -44,6 +44,8 @@ struct GameplayView: View {
     var body: some View {
         ZStack {
             Image(gameplayViewModel.background[gameController.indiceFaseJogo])
+                .resizable()
+                .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.top)
                 .onAppear{
                     audioPlayer.playMusic(sound: "soccer-stadium", type: "mp3", volume: 0.5)

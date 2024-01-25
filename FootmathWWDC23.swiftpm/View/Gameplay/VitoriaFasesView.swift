@@ -9,6 +9,8 @@ struct VitoriaFasesView: View {
         ZStack{
             
             Image("VitoriaBackground")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.top)
                 .onAppear{
                     audioPlayer.playEffect(effect: "goal-scream", type: "mp3", volume: 3.5)

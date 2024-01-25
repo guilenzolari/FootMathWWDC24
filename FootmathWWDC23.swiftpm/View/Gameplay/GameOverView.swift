@@ -20,6 +20,8 @@ struct GameOverView: View {
         ZStack{
             
             Image(gameOverBackground[gameController.indiceFaseJogo])
+                .resizable()
+                .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.top)
                 .onAppear{
                     audioPlayer.playEffect(effect: "missed-goal", type: "mp3", volume: 3.5)
