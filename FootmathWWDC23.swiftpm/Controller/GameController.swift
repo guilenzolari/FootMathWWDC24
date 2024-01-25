@@ -24,6 +24,7 @@ class GameController: ObservableObject {
         if indiceContaFase == 5 || tempo == 0 {
             if indiceFaseJogo == 2 && contadorDeAcertos() >= 3 {
                 navigationLinkVitoriaFasesView = true
+                resetarJogo()
             }else if contadorDeAcertos() >= 3 {
                 proximaFase()
             }else {
@@ -38,19 +39,24 @@ class GameController: ObservableObject {
         return resultadosFiltrado.count
     }
     
-    func resetarJogo(){
+    func resetarFase(){
         indiceContaFase = 0
         resultados = [ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio]
     }
     
+    func resetarJogo(){
+        resetarFase()
+        indiceFaseJogo = 0
+    }
+    
     func proximaFase(){
         indiceFaseJogo += 1
-        resetarJogo()
+        resetarFase()
         navigationLinkProximaFase = false
         }
     
     func gameOver(){
         navigationLinkGameOverView = true
-        resetarJogo()
+        resetarFase()
     }
 }

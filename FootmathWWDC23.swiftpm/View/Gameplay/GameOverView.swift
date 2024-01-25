@@ -32,7 +32,7 @@ struct GameOverView: View {
                     gameController.navigationLinkGameOverView = false}
                 botaoAtivado = false
             } label: {
-                Image("menuBotao")
+                Image("playAgain")
             }.padding(.top, 550)
                 .disabled(!botaoAtivado)
                 

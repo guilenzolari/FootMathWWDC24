@@ -20,7 +20,7 @@ struct VitoriaFasesView: View {
                     navigantionLinkAtivoJogar = true}
                 botaoAtivado = false
             } label: {
-                Image("menuBotão")
+                Image("menuBotaoAzul")
             }.padding(.top, 550)
                 .disabled(!botaoAtivado)
             

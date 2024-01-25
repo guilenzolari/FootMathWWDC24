@@ -33,10 +33,10 @@ struct HistoriaView: View {
                 
                 Button {
                     navigantionLinkAtivo = !historia.avancar()
-                    audioPlayer.playEffect(effect: "click-botao", type: "mp3", volume: 1.0)
+                    audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 1.0)
                     audioPlayer.playEffect(effect: historia.sounds[historia.etapaAtual], type: "mp3", volume: 1.0)
                 } label: {
-                    Image("next button")
+                    Image(historia.button[historia.etapaAtual])
                         .padding(.top, 600)
                 }
             }

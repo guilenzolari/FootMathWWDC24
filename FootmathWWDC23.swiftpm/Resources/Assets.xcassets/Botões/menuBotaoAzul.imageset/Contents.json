@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "opcoes.png",
+      "filename" : "menu.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -10,6 +10,7 @@
       "scale" : "2x"
     },
     {
+      "filename" : "botao proximo.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

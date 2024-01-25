@@ -74,22 +74,14 @@ struct GameplayView: View {
                     .foregroundColor(.white)
             }.padding(.bottom, 640)
                 .padding(.horizontal, 22)
-//                .onReceive(timerController.$timerIsOver) { isOver in
-//                    if isOver {
-//                        gameController.proximaFase(tempo: timerController.tempo)
-//                    }
-//                }
-//                .onChange(of: timerController.tempo){
-//                    gameController.proximaFase(tempo: timerController.tempo)
-//                }
-
                 .onChange(of: timerController.tempo) { newTempo in
-                    gameController.fimDaJogada(tempo: newTempo)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        gameController.fimDaJogada(tempo: newTempo)}
                 }
             
             Text(gameplayViewModel.operacaoMatematica)
-                .foregroundColor(.white)
-                .padding(.bottom, 380)
+                .foregroundColor(.black)
+                .padding(.bottom, 370)
             
             VStack{
                 LazyHGrid(rows: linhas, spacing: 60,content: {
