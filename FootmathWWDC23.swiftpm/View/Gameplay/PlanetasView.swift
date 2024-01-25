@@ -33,7 +33,7 @@ struct PlanetasView: View {
             Image("Foguete")
                 .position(foguetePosition)
             
-            NavigationLink("", destination: GameplayView(), isActive: $gameController.navigationLinkProximaFase)
+            NavigationLink("", destination: ContentView(), isActive: $gameController.navigationLinkProximaFase)
         }
         .navigationBarBackButtonHidden(true)
         .onAppear{
