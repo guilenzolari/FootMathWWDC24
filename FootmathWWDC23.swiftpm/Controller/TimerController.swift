@@ -14,8 +14,6 @@ class TimerController: ObservableObject {
 
     init() {
         startTimer()
-        
-        
     }
 
     deinit {

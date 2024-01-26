@@ -29,7 +29,7 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView  {
-                MenuView()
+                ContentView()
             }
             .navigationViewStyle(.stack)
             .environmentObject(audioPlayer)
