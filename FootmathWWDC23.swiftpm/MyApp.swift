@@ -6,6 +6,7 @@ struct MyApp: App {
     
     @StateObject var gameController = GameController()
     @StateObject var audioPlayer = AudioPlayer()
+
     
     init() {
         if let fontURL = Bundle.main.url(forResource: "8-bit Arcade In", withExtension: "ttf") {
@@ -29,11 +30,12 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView  {
-                ContentView()
+                MenuView()
             }
             .navigationViewStyle(.stack)
             .environmentObject(audioPlayer)
             .environmentObject(gameController)
+            .environmentObject(TimerController())
 
         }
     }

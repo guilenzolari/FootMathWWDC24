@@ -3,7 +3,7 @@ import Combine
 
 class TimerController: ObservableObject {
     var tempoTotalTimer = 40
-    @Published var tempo: Int!
+    @Published var tempo: Int = 0
     @Published var navigationLinkAtivo = false
     @Published var timerIsOver = false
     private var timer: Timer?
@@ -24,10 +24,11 @@ class TimerController: ObservableObject {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             if self.tempo > 0 {
-                self.tempo -= 1
+                //self.tempo -= 1
             } else {
                 self.stopTimer()
             }
+            print(self.tempo)
         }
         
         tempo = tempoTotalTimer

@@ -3,7 +3,7 @@
 import SwiftUI
 
 struct GameplayView: View {
-    @StateObject var timerController = TimerController()
+    @EnvironmentObject var timerController:TimerController
     @StateObject var gameplayViewModel = GameplayViewModel()
     
     @EnvironmentObject var audioPlayer: AudioPlayer

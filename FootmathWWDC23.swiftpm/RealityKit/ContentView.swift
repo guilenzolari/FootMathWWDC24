@@ -1,25 +1,29 @@
 import SwiftUI
 import RealityKit
 import ARKit
+import UIKit
 
 struct ContentView: View {
-    
+    @StateObject var gameplayViewModel = GameplayViewModel()
+    @StateObject var timerController = TimerController()
+
     var body: some View {
-        ARViewContainer()
+       
+        ARViewContainer(timer: $timerController.tempo, operacaoMatematica: $gameplayViewModel.operacaoMatematica)
             .edgesIgnoringSafeArea(.all)
             .navigationBarBackButtonHidden(true)
     }
 }
 
 struct ARViewContainer: UIViewRepresentable {
-    @StateObject var gameplayViewModel = GameplayViewModel()
-    @StateObject var timerController = TimerController()
-
+    @Binding var timer: Int
+    @Binding var operacaoMatematica: String
+    
     let numbersPosition = [[-0.09, 0.1, -0.25], [-0.01, 0.1, -0.25], [0.07, 0.1, -0.25],
                            [-0.09, 0, -0.25], [-0.01, 0, -0.25], [0.07, 0, -0.25]]
     
     func makeUIView(context: Context) -> ARView {
-
+        
         let arView = ARView(frame: .zero)
         
         // Bola
@@ -51,7 +55,7 @@ struct ARViewContainer: UIViewRepresentable {
             anchorButtons.position = [0, 0, -0.2]
             arView.scene.addAnchor(anchorButtons)
             
-            let textMesh = MeshResource.generateText("\(gameplayViewModel.palpites[index])", extrusionDepth: 0.1, font: .systemFont(ofSize: 2))
+            let textMesh = MeshResource.generateText(" ", extrusionDepth: 0.1, font: .systemFont(ofSize: 2))
             let textMaterial = SimpleMaterial(color: .black, isMetallic: true)
             let textEntity = ModelEntity(mesh: textMesh, materials: [textMaterial])
             let anchorPalpiteText = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
@@ -63,14 +67,7 @@ struct ARViewContainer: UIViewRepresentable {
         }
         
         //Cronometro
-        let textTimerMesh = MeshResource.generateText("40", extrusionDepth: 0.1, font: .systemFont(ofSize: 2))
-        let textTimerMaterial = SimpleMaterial(color: .white, isMetallic: false)
-        let textTimerEntity = ModelEntity(mesh: textTimerMesh, materials: [textTimerMaterial])
-        let anchorTimerText = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
-        textTimerEntity.scale = SIMD3<Float>(x: 0.03, y: 0.03, z: 0.1)
-        anchorTimerText.addChild(textTimerEntity)
-        anchorTimerText.position = [0.2,0.4,-0.25]
-        arView.scene.addAnchor(anchorTimerText)
+        makeTimer(arView: arView, timer: context.coordinator.timer)
         
         //fundo placar
         let fundoContaMesh = MeshResource.generateBox(width: 0.2, height: 0.08, depth: 0.01)
@@ -82,7 +79,7 @@ struct ARViewContainer: UIViewRepresentable {
         arView.scene.addAnchor(anchorFundoConta)
         
         //conta
-        let textContaMesh = MeshResource.generateText("10 - 3", extrusionDepth: 0.1, font: .systemFont(ofSize: 2))
+        let textContaMesh = MeshResource.generateText("\(operacaoMatematica)", extrusionDepth: 0.1, font: .systemFont(ofSize: 2))
         let textContaMaterial = SimpleMaterial(color: .red, isMetallic: false)
         let textContaEntity = ModelEntity(mesh: textContaMesh, materials: [textContaMaterial])
         let anchorContaText = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
@@ -90,10 +87,40 @@ struct ARViewContainer: UIViewRepresentable {
         anchorContaText.addChild(textContaEntity)
         anchorContaText.position = [-0.1,0.25,-0.25]
         arView.scene.addAnchor(anchorContaText)
-    
+        
         // Adicionar a entidade à cena
         return arView
     }
     
-    func updateUIView(_ uiView: ARView, context: Context) {}
+    //from SWiftUI to UIKit
+    func updateUIView(_ uiView: ARView, context: Context) {
+        makeTimer(arView: uiView, timer: context.coordinator.timer)
+    }
+    
+    func makeTimer(arView: ARView, timer: Int)  {
+        let arViewTimer = arView
+        let textTimerMesh = MeshResource.generateText("\(timer)", extrusionDepth: 0.1, font: .systemFont(ofSize: 2))
+        let textTimerMaterial = SimpleMaterial(color: .white, isMetallic: false)
+        let textTimerEntity = ModelEntity(mesh: textTimerMesh, materials: [textTimerMaterial])
+        let anchorTimerText = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
+        textTimerEntity.scale = SIMD3<Float>(x: 0.03, y: 0.03, z: 0.1)
+        anchorTimerText.addChild(textTimerEntity)
+        anchorTimerText.position = [0.2,0.4,-0.25]
+        arViewTimer.scene.addAnchor(anchorTimerText)
+    }
+        
+    //from UIKit to SwifUi
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(timer: $timer, operacaoMatematica: $operacaoMatematica)
+    }
+    
+    class Coordinator: NSObject{
+        @Binding var timer: Int
+        @Binding var operacaoMatematica: String
+        
+        init(timer: Binding<Int>, operacaoMatematica: Binding<String>){
+            self._timer = timer
+            self._operacaoMatematica = operacaoMatematica
+        }
+    }
 }
