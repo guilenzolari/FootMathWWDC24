@@ -6,6 +6,8 @@ struct MyApp: App {
     
     @StateObject var gameController = GameController()
     @StateObject var audioPlayer = AudioPlayer()
+    @StateObject var timerController = TimerController()
+
 
     
     init() {
@@ -30,12 +32,12 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView  {
-                MenuView()
+                ContentView()
             }
             .navigationViewStyle(.stack)
             .environmentObject(audioPlayer)
             .environmentObject(gameController)
-            .environmentObject(TimerController())
+            .environmentObject(timerController)
 
         }
     }

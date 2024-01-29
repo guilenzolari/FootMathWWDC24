@@ -35,7 +35,6 @@ class GameController: ObservableObject {
     
     func contadorDeAcertos() -> Int {
         let resultadosFiltrado = resultados.filter{ $0 == ResultadoJogada.acertou}
-        print(resultadosFiltrado.count)
         return resultadosFiltrado.count
     }
     
