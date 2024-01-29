@@ -5,9 +5,11 @@ import UIKit
 
 struct ARViewContainer: UIViewRepresentable {
     @Binding var palpites: [Int]
+    let scaleGoal: SIMD3<Float> = [2.4, 2.0, 2.0]
+    let scaleBall: SIMD3<Float> = [2.0, 2.0, 2.0]
     
-    let numbersPosition = [[-0.09, 0.1, -0.25], [-0.01, 0.1, -0.25], [0.07, 0.1, -0.25],
-                           [-0.09, 0, -0.25], [-0.01, 0, -0.25], [0.07, 0, -0.25]]
+    let numbersPosition = [[-0.24, 0.23, -0.25], [-0.05, 0.23, -0.25], [0.14, 0.23, -0.25],
+                           [-0.24, 0.05, -0.25], [-0.05, 0.05, -0.25], [0.14, 0.05, -0.25]]
     
     func makeUIView(context: Context) -> ARView {
         
@@ -18,7 +20,8 @@ struct ARViewContainer: UIViewRepresentable {
         ballEntity.scale = [0.02, 0.02, 0.02]
         let anchorBall = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
         anchorBall.addChild(ballEntity)
-        anchorBall.position = [0, 0, 0.2]
+        anchorBall.position = [0, -0.01, 0.5]
+        anchorBall.scale = scaleBall
         arView.scene.addAnchor(anchorBall)
         
         // Trave
@@ -26,7 +29,8 @@ struct ARViewContainer: UIViewRepresentable {
         goalEntity.scale = [0.05, 0.05, 0.05]
         let anchorGoal = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
         anchorGoal.addChild(goalEntity)
-        anchorGoal.position = [0, 0, -0.2]
+        anchorGoal.scale = scaleGoal
+        anchorGoal.position = [0, 0, -0.25]
         arView.scene.addAnchor(anchorGoal)
         
         // Botões e palpites
@@ -41,6 +45,7 @@ struct ARViewContainer: UIViewRepresentable {
             buttonsArrayEntity[index].generateCollisionShapes(recursive: true)
             anchorButtons.addChild(buttonsArrayEntity[index])
             anchorButtons.position = [0, 0, -0.2]
+            anchorButtons.scale = scaleGoal
             arView.scene.addAnchor(anchorButtons)
             
             let textMesh = MeshResource.generateText("\(palpites[index])", extrusionDepth: 0.1, font: .systemFont(ofSize: 2))
@@ -74,26 +79,20 @@ struct ARViewContainer: UIViewRepresentable {
                 
                 if let index = Int(child.name) {
                     anchorTextPalpite.removeChild(child)
-                    let textMesh = MeshResource.generateText("\(palpites[index])", extrusionDepth: 0.1, font: .systemFont(ofSize: 2))
+                    let textMesh = MeshResource.generateText("\(palpites[index])", extrusionDepth: 0.1, font: .systemFont(ofSize: 4))
                     
                     let textMaterial = SimpleMaterial(color: .black, isMetallic: true)
                     let textEntity = ModelEntity(mesh: textMesh, materials: [textMaterial])
-                    let anchorPalpiteText = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
+                    _ = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
                     textEntity.scale = SIMD3<Float>(x: 0.03, y: 0.03, z: 0.1)
                     textEntity.generateCollisionShapes(recursive: true)
                     textEntity.name = "\(index)"
                     anchorTextPalpite.addChild(textEntity)
                 }
-                
-
             }
-
-            //anchorTextPalpite.removeChild(anchorTextPalpite.children[0])
-            
         }
 
     }
-    
     //from UIKit to SwifUi
     func makeCoordinator() -> Coordinator {
         return Coordinator(palpites: $palpites)
