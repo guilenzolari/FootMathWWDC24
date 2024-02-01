@@ -5,6 +5,7 @@ import UIKit
 
 struct ARViewContainer: UIViewRepresentable {
     
+    var ballObject: Entity?
     @Binding var palpites: [Int]
     let boxMaterial = SimpleMaterial(color: .lightGray, isMetallic: false)
     let textMaterial = SimpleMaterial(color: .black, isMetallic: false)
@@ -27,25 +28,39 @@ struct ARViewContainer: UIViewRepresentable {
         
         let arView = ARView(frame: .zero)
         arView.addCoaching()
-//        arView.debugOptions = [.showPhysics, .showAnchorGeometry, .showFeaturePoints]
+        arView.debugOptions = [.showPhysics, .showAnchorGeometry, .showFeaturePoints]
         
         anchorPlane.name = "AnchorPlane"
         
         // Bola
-        makeObject(arView: arView, name: "ball.usdc", entityScale: ballEntityScale, anchorScale: anchorScaleBall, position: ballPosition)
+        let ballEntity = makeObject(arView: arView,
+                   name: "ball.usdc",
+                   entityScale: ballEntityScale,
+                   anchorScale: anchorScaleBall, 
+                   position: ballPosition)
         
         // Trave
-        makeObject(arView: arView, name: "gol.usdc", entityScale: goalEntityScale, anchorScale: anchorScaleGoal, position: goalPosition)
+        let trave = makeObject(arView: arView,
+                   name: "gol.usdc",
+                   entityScale: goalEntityScale,
+                   anchorScale: anchorScaleGoal,
+                   position: goalPosition)
         
         arView.scene.addAnchor(anchorPlane)
         
         for index in 0...5 {
             
             // Botões
-            let boxEntity = makeBox(arView: arView, name: "Slot \(index)", position: boxPosition[index])
+            let boxEntity = makeBox(arView: arView, 
+                                    name: "Slot \(index)",
+                                    position: boxPosition[index])
                    
             //Textos
-            makeText(arView: arView, text: "\(palpites[index])", index: index , textMaterial: textMaterial, dadEntity: boxEntity)
+            makeText(arView: arView,
+                     text: "\(palpites[index])",
+                     index: index ,
+                     textMaterial: textMaterial,
+                     dadEntity: boxEntity)
         }
         
         arView.onTapAction()
@@ -57,20 +72,17 @@ struct ARViewContainer: UIViewRepresentable {
     func updateUIView(_ arView: ARView, context: Context) {
         
         let anchorSlots = arView.scene.anchors.filter { element in
-            return element.name.contains("AnchorPlane")
-        }
+            return element.name.contains("AnchorPlane")}
         
         let slots = anchorSlots.first?.children.filter { element in
-            return element.name.contains("Slot")
-        }
+            return element.name.contains("Slot")}
         
         if let slots {
             
             for slot in slots {
         
                 let texts = slot.children.filter { element in
-                    element.name.contains("Text")
-                }
+                    element.name.contains("Text")}
                 
                 if let textEntity = texts.first {
                     
@@ -101,7 +113,7 @@ struct ARViewContainer: UIViewRepresentable {
         }
     }
     
-    func makeObject(arView: ARView, name: String, entityScale: SIMD3<Float>, anchorScale: SIMD3<Float>, position: SIMD3<Float>){
+    func makeObject(arView: ARView, name: String, entityScale: SIMD3<Float>, anchorScale: SIMD3<Float>, position: SIMD3<Float>) -> Entity {
         let entity = try! ModelEntity.load(named: name)
         let anchor = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0,0]))
         entity.scale = entityScale
@@ -109,6 +121,8 @@ struct ARViewContainer: UIViewRepresentable {
         anchor.position = position
         anchor.scale = anchorScale
         arView.scene.addAnchor(anchor)
+        
+        return entity
     }
     
     func makeText(arView: ARView, text: String, index: Int, textMaterial: SimpleMaterial, dadEntity: Entity){
@@ -116,7 +130,6 @@ struct ARViewContainer: UIViewRepresentable {
         let textEntity = ModelEntity(mesh: textMesh, materials: [textMaterial])
         textEntity.scale = SIMD3<Float>(x: 0.03, y: 0.03, z: 0.1)
         textEntity.position = [-0.05, -0.06, 0.01]
-        textEntity.generateCollisionShapes(recursive: true)
         textEntity.name = "Text \(index)"
         dadEntity.addChild(textEntity)
     }
@@ -125,6 +138,7 @@ struct ARViewContainer: UIViewRepresentable {
         let box = MeshResource.generateBox(width: 0.16, height: 0.15, depth: 0.01)
         let boxEntity = ModelEntity(mesh: box, materials: [boxMaterial])
         boxEntity.name = name
+        boxEntity.generateCollisionShapes(recursive: true)
         boxEntity.position = position
         anchorPlane.addChild(boxEntity)
         
