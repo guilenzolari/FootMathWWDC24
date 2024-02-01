@@ -4,107 +4,131 @@ import ARKit
 import UIKit
 
 struct ARViewContainer: UIViewRepresentable {
-    @Binding var palpites: [Int]
-    let scaleGoal: SIMD3<Float> = [2.4, 2.0, 2.0]
-    let scaleBall: SIMD3<Float> = [2.0, 2.0, 2.0]
     
-    let numbersPosition = [[-0.24, 0.23, -0.25], [-0.05, 0.23, -0.25], [0.14, 0.23, -0.25],
-                           [-0.24, 0.05, -0.25], [-0.05, 0.05, -0.25], [0.14, 0.05, -0.25]]
+    @Binding var palpites: [Int]
+    let boxMaterial = SimpleMaterial(color: .lightGray, isMetallic: false)
+    let textMaterial = SimpleMaterial(color: .black, isMetallic: false)
+    let anchorPlane = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
+    
+    let anchorScaleGoal: SIMD3<Float> = [2.4, 2.0, 2.0]
+    let ballEntityScale:SIMD3<Float> = [0.02, 0.02, 0.02]
+    let anchorScaleBall: SIMD3<Float> = [2.0, 2.0, 2.0]
+    let goalEntityScale: SIMD3<Float> = [0.05, 0.05, 0.05]
+    let goalPosition: SIMD3<Float> = [0, 0, -0.25]
+    let boxPosition: [SIMD3<Float>] = [[-0.2, 0.29, -0.35],
+                                       [0, 0.29, -0.35],
+                                       [0.2, 0.29, -0.35],
+                                       [-0.2, 0.1, -0.35],
+                                       [0, 0.1, -0.35],
+                                       [0.2, 0.1, -0.35]]
+    var ballPosition: SIMD3<Float> = [0, -0.01, 0.5]
     
     func makeUIView(context: Context) -> ARView {
         
         let arView = ARView(frame: .zero)
+        arView.addCoaching()
+        arView.debugOptions = [.showPhysics, .showAnchorGeometry, .showFeaturePoints]
+        
+        anchorPlane.name = "AnchorPlane"
         
         // Bola
-        let ballEntity = try! ModelEntity.load(named: "ball.usdc")
-        ballEntity.scale = [0.02, 0.02, 0.02]
-        let anchorBall = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
-        anchorBall.addChild(ballEntity)
-        anchorBall.position = [0, -0.01, 0.5]
-        anchorBall.scale = scaleBall
-        arView.scene.addAnchor(anchorBall)
+        makeObject(arView: arView, name: "ball.usdc", entityScale: ballEntityScale, anchorScale: anchorScaleBall, position: ballPosition)
         
         // Trave
-        let goalEntity = try! ModelEntity.load(named: "gol.usdc")
-        goalEntity.scale = [0.05, 0.05, 0.05]
-        let anchorGoal = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
-        anchorGoal.addChild(goalEntity)
-        anchorGoal.scale = scaleGoal
-        anchorGoal.position = [0, 0, -0.25]
-        arView.scene.addAnchor(anchorGoal)
+        makeObject(arView: arView, name: "gol.usdc", entityScale: goalEntityScale, anchorScale: anchorScaleGoal, position: goalPosition)
         
-        // Botões e palpites
-        var buttonsArrayEntity: [Entity] = []
+        arView.scene.addAnchor(anchorPlane)
         
         for index in 0...5 {
-            let buttonsEntity = try! ModelEntity.load(named: "botaoGol\(index + 1)")
-            buttonsArrayEntity.append(buttonsEntity)
-            let anchorButtons = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
-            anchorButtons.name = "Buttons"
-            buttonsArrayEntity[index].scale = [0.05, 0.05, 0.05]
-            buttonsArrayEntity[index].generateCollisionShapes(recursive: true)
-            anchorButtons.addChild(buttonsArrayEntity[index])
-            anchorButtons.position = [0, 0, -0.2]
-            anchorButtons.scale = scaleGoal
-            arView.scene.addAnchor(anchorButtons)
             
-            let textMesh = MeshResource.generateText("\(palpites[index])", extrusionDepth: 0.1, font: .systemFont(ofSize: 2))
-            let textMaterial = SimpleMaterial(color: .black, isMetallic: true)
-            let textEntity = ModelEntity(mesh: textMesh, materials: [textMaterial])
-            let anchorPalpiteText = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
-            textEntity.scale = SIMD3<Float>(x: 0.03, y: 0.03, z: 0.1)
-            textEntity.generateCollisionShapes(recursive: true)
-            textEntity.name = "\(index)"
-            anchorPalpiteText.name = "Palpite-\(index)"
-            anchorPalpiteText.addChild(textEntity)
-            anchorPalpiteText.position = SIMD3<Float>(x: Float(numbersPosition[index][0]), y: Float(numbersPosition[index][1]), z: Float(numbersPosition[index][2]))
-            arView.scene.addAnchor(anchorPalpiteText)
+            // Botões
+            let boxEntity = makeBox(arView: arView, name: "Slot \(index)", position: boxPosition[index])
+                   
+            //Textos
+            makeText(arView: arView, text: "\(palpites[index])", index: index , textMaterial: textMaterial, dadEntity: boxEntity)
         }
         
-        // Adicionar a entidade à cena
+        arView.onTapAction()
+        
         return arView
     }
-    
+
     //from SWiftUI to UIKit
     func updateUIView(_ arView: ARView, context: Context) {
         
-        let anchorTextPalpites = arView.scene.anchors.filter { element in
-            element.name.contains("Palpite")
+        let anchorSlots = arView.scene.anchors.filter { element in
+            return element.name.contains("AnchorPlane")
         }
         
-        //Recria o texto
-        for anchorTextPalpite in anchorTextPalpites {
-            if anchorTextPalpite.children.count > 0 {
-                let child = anchorTextPalpite.children[0]
+        let slots = anchorSlots.first?.children.filter { element in
+            return element.name.contains("Slot")
+        }
+        
+        if let slots {
+            
+            for slot in slots {
+        
+                let texts = slot.children.filter { element in
+                    element.name.contains("Text")
+                }
                 
-                if let index = Int(child.name) {
-                    anchorTextPalpite.removeChild(child)
-                    let textMesh = MeshResource.generateText("\(palpites[index])", extrusionDepth: 0.1, font: .systemFont(ofSize: 4))
+                if let textEntity = texts.first {
                     
-                    let textMaterial = SimpleMaterial(color: .black, isMetallic: true)
-                    let textEntity = ModelEntity(mesh: textMesh, materials: [textMaterial])
-                    _ = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
-                    textEntity.scale = SIMD3<Float>(x: 0.03, y: 0.03, z: 0.1)
-                    textEntity.generateCollisionShapes(recursive: true)
-                    textEntity.name = "\(index)"
-                    anchorTextPalpite.addChild(textEntity)
+                    let index = Int(textEntity.name.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())
+                    
+                    if let index {
+                        textEntity.removeFromParent()
+                        makeText(arView: arView,
+                                 text: "\(palpites[index])",
+                                 index: index ,
+                                 textMaterial: textMaterial, dadEntity: slot)
+                    }
                 }
             }
         }
 
-    }
-    //from UIKit to SwifUi
-    func makeCoordinator() -> Coordinator {
-        return Coordinator(palpites: $palpites)
-    }
-    
-    
-    
-    class Coordinator: NSObject{
-        @Binding var palpites: [Int]
-        
-        init(palpites: Binding<[Int]>){
-            self._palpites = palpites
+        //from UIKit to SwifUi
+        func makeCoordinator() -> Coordinator {
+            return Coordinator(palpites: $palpites)
         }
+        
+        class Coordinator: NSObject{
+            @Binding var palpites: [Int]
+            
+            init(palpites: Binding<[Int]>){
+                self._palpites = palpites
+            }
+        }
+    }
+    
+    func makeObject(arView: ARView, name: String, entityScale: SIMD3<Float>, anchorScale: SIMD3<Float>, position: SIMD3<Float>){
+        let entity = try! ModelEntity.load(named: name)
+        let anchor = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0,0]))
+        entity.scale = entityScale
+        anchor.addChild(entity)
+        anchor.position = position
+        anchor.scale = anchorScale
+        arView.scene.addAnchor(anchor)
+    }
+    
+    func makeText(arView: ARView, text: String, index: Int, textMaterial: SimpleMaterial, dadEntity: Entity){
+        let textMesh = MeshResource.generateText(text, extrusionDepth: 0.1, font: .systemFont(ofSize: 3.5), alignment: .center)
+        let textEntity = ModelEntity(mesh: textMesh, materials: [textMaterial])
+        textEntity.scale = SIMD3<Float>(x: 0.03, y: 0.03, z: 0.1)
+        textEntity.position = [-0.05, -0.06, 0.01]
+        textEntity.generateCollisionShapes(recursive: true)
+        textEntity.name = "Text \(index)"
+        dadEntity.addChild(textEntity)
+    }
+    
+    func makeBox(arView: ARView, name: String, position: SIMD3<Float>) -> Entity{
+        let box = MeshResource.generateBox(width: 0.16, height: 0.15, depth: 0.01)
+        let boxEntity = ModelEntity(mesh: box, materials: [boxMaterial])
+        boxEntity.name = name
+        boxEntity.position = position
+        anchorPlane.addChild(boxEntity)
+        
+        return boxEntity
+        
     }
 }

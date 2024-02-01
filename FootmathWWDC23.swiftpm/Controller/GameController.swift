@@ -2,14 +2,10 @@ import Foundation
 import SwiftUI
 
 class GameController: ObservableObject {
-    
-  //  var timerController = TimerController()
     var timerEnds = false
     @Published var navigationLinkProximaFase = false
     @Published var navigationLinkGameOverView = false
     @Published var navigationLinkVitoriaFasesView = false
-
-        
     @Published var resultados: [ResultadoJogada] = [ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio]
     @Published var indiceFaseJogo: Int = 0
     @Published var indiceContaFase: Int = 0
@@ -52,7 +48,7 @@ class GameController: ObservableObject {
         indiceFaseJogo += 1
         resetarFase()
         navigationLinkProximaFase = false
-        }
+    }
     
     func gameOver(){
         navigationLinkGameOverView = true
