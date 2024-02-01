@@ -27,7 +27,7 @@ struct ARViewContainer: UIViewRepresentable {
         
         let arView = ARView(frame: .zero)
         arView.addCoaching()
-        arView.debugOptions = [.showPhysics, .showAnchorGeometry, .showFeaturePoints]
+//        arView.debugOptions = [.showPhysics, .showAnchorGeometry, .showFeaturePoints]
         
         anchorPlane.name = "AnchorPlane"
         
