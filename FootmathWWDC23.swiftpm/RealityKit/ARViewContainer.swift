@@ -12,7 +12,7 @@ struct ARViewContainer: UIViewRepresentable {
     let anchorPlane = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
     
     let anchorScaleGoal: SIMD3<Float> = [2.4, 2.0, 2.0]
-    let ballEntityScale:SIMD3<Float> = [0.02, 0.02, 0.02]
+    let ballEntityScale: SIMD3<Float> = [0.02, 0.02, 0.02]
     let anchorScaleBall: SIMD3<Float> = [2.0, 2.0, 2.0]
     let goalEntityScale: SIMD3<Float> = [0.05, 0.05, 0.05]
     let goalPosition: SIMD3<Float> = [0, 0, -0.25]
@@ -28,7 +28,7 @@ struct ARViewContainer: UIViewRepresentable {
         
         let arView = ARView(frame: .zero)
         arView.addCoaching()
-        arView.debugOptions = [.showPhysics, .showAnchorGeometry, .showFeaturePoints]
+//        arView.debugOptions = [.showPhysics, .showAnchorGeometry, .showFeaturePoints]
         
         anchorPlane.name = "AnchorPlane"
         
@@ -41,7 +41,7 @@ struct ARViewContainer: UIViewRepresentable {
         
         
         // Trave
-        let trave = makeObject(arView: arView,
+        makeObject(arView: arView,
                    name: "gol.usdc",
                    entityScale: goalEntityScale,
                    anchorScale: anchorScaleGoal,
@@ -64,7 +64,7 @@ struct ARViewContainer: UIViewRepresentable {
                      dadEntity: boxEntity)
         }
         
-        arView.onTapAction(objectToMove: ballEntity)
+        arView.onTapAction(objectToMove: ballEntity, ballScale: ballEntityScale)
         
         return arView
     }
@@ -115,7 +115,7 @@ struct ARViewContainer: UIViewRepresentable {
         }
     }
     
-    func makeObject(arView: ARView, name: String, entityScale: SIMD3<Float>, anchorScale: SIMD3<Float>, position: SIMD3<Float>) -> Entity {
+    public func makeObject(arView: ARView, name: String, entityScale: SIMD3<Float>, anchorScale: SIMD3<Float>, position: SIMD3<Float>) -> Entity {
         let entity = try! ModelEntity.load(named: name)
         let anchor = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0,0]))
         entity.scale = entityScale
