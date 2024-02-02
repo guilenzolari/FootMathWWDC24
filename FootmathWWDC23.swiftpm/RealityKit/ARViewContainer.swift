@@ -39,6 +39,7 @@ struct ARViewContainer: UIViewRepresentable {
                    anchorScale: anchorScaleBall, 
                    position: ballPosition)
         
+        
         // Trave
         let trave = makeObject(arView: arView,
                    name: "gol.usdc",
@@ -63,7 +64,7 @@ struct ARViewContainer: UIViewRepresentable {
                      dadEntity: boxEntity)
         }
         
-        arView.onTapAction()
+        arView.onTapAction(objectToMove: ballEntity)
         
         return arView
     }
@@ -106,6 +107,7 @@ struct ARViewContainer: UIViewRepresentable {
         
         class Coordinator: NSObject{
             @Binding var palpites: [Int]
+            
             
             init(palpites: Binding<[Int]>){
                 self._palpites = palpites

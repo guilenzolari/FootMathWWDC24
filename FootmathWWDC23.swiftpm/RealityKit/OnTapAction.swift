@@ -3,9 +3,14 @@ import RealityKit
 import ARKit
 import UIKit
 
+class Container {
+    static var objToMove: Entity?
+}
+
 extension ARView {
-        
-    func onTapAction(){
+    
+    func onTapAction(objectToMove: Entity){
+        Container.objToMove = objectToMove
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(reconizer:)))
         self.addGestureRecognizer(tapGestureRecognizer)
     }
@@ -13,20 +18,20 @@ extension ARView {
     @objc func handleTap(reconizer: UITapGestureRecognizer){
         print("clicou na Tela")
         let location = reconizer.location(in: self)
+        let objectToMove = Container.objToMove
         
         if let entity = self.entity(at: location){
             if entity.name.contains("Slot"){
                 print("Clicou em um objeto Slot")
-                moveObject(object: entity, position: .init(x: 1, y: 1, z: 1))
+                self.moveObject(objectToMove: objectToMove!, position: .init(x: 1, y: 1, z: 1))
             }
-            print(entity.name)
         } else {
             print("No hit")
         }
     }
     
-    func moveObject(object: Entity, position: SIMD3<Float>){
-        object.move(to: Transform(translation: position),
+    func moveObject(objectToMove: Entity, position: SIMD3<Float>){
+        objectToMove.move(to: Transform(translation: position),
                     relativeTo: nil,
                     duration: 1.0,
                     timingFunction: .easeInOut)

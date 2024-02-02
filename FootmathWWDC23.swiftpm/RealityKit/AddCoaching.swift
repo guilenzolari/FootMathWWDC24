@@ -17,5 +17,6 @@ extension ARView: ARCoachingOverlayViewDelegate {
     
     public func coachingOverlayViewDidDeactivate(_ coachingOverlayView: ARCoachingOverlayView) {
         //Ready to add entities next?
+        print("entidades adicionadas a tela")
     }
 }
