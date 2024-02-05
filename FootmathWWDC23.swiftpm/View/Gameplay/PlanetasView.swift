@@ -21,8 +21,7 @@ struct PlanetasView: View {
         ZStack {
             Image("PlanetasBackground")
                 .resizable()
-                .aspectRatio(contentMode: .fill)
-                .edgesIgnoringSafeArea(.top)
+                .ignoresSafeArea()
                 .onAppear {
                     audioPlayer.playMusic(sound: "rocket-sound", type: "mp3", volume: 3.5)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {

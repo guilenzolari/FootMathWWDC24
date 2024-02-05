@@ -6,31 +6,32 @@ struct MenuView: View {
     @EnvironmentObject var audioPlayer:AudioPlayer
     
     var body: some View {
-        ZStack {
-            Image("BackMenu")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .edgesIgnoringSafeArea(.top)
-                .onAppear{
-                    audioPlayer.playMusic(sound: "latin-music", type: "mp3", volume: 0.1)
-                }
+        GeometryReader {geometry in
+            ZStack {
+                Image("BackMenu")
+                    .resizable()
+                    .ignoresSafeArea()
+                    .onAppear{
+                        audioPlayer.playMusic(sound: "latin-music", type: "mp3", volume: 0.1)
+                    }
+                
+                HStack{
+                    Button {
+                        audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 0.1)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                            navigantionLinkAtivoJogar = true}
+                        botaoAtivado = false
+                        audioPlayer.stopAudio()
+                    } label: {
+                        Image("jogar")
+                    }
+                }.padding(.top, geometry.size.height * 7/10)
+                    .disabled(!botaoAtivado)
 
-            VStack{
-                Button {
-                    audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 0.1)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                        navigantionLinkAtivoJogar = true}
-                    botaoAtivado = false
-                    audioPlayer.stopAudio()
-                } label: {
-                    Image("jogar")
-                }
-            }.padding(.top, 550)
-            .disabled(!botaoAtivado)
-            
-            NavigationLink("",destination: HistoriaView(),isActive: $navigantionLinkAtivoJogar)
-
-        }.navigationBarBackButtonHidden(true)
+                NavigationLink("",destination: HistoriaView(),isActive: $navigantionLinkAtivoJogar)
+                
+            }.navigationBarBackButtonHidden(true)
+        }
     }
 }
 

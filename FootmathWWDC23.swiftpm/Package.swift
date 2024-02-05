@@ -23,7 +23,6 @@ let package = Package(
             appIcon: .asset("AppIcon"),
             accentColor: .presetColor(.green),
             supportedDeviceFamilies: [
-                .pad,
                 .phone
             ],
             supportedInterfaceOrientations: [
@@ -31,7 +30,7 @@ let package = Package(
                 .portraitUpsideDown
             ],
             capabilities: [
-                .camera(purposeString: "me deixa usar")
+                .camera(purposeString: "AR purpose")
             ],
             appCategory: .sportsGames
         )
