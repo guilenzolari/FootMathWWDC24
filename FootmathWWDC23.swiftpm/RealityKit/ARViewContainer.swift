@@ -7,6 +7,8 @@ struct ARViewContainer: UIViewRepresentable {
     
     var ballObject: Entity?
     @Binding var palpites: [Int]
+    weak var timer: TimerController?
+    
     let boxMaterial = SimpleMaterial(color: .lightGray, isMetallic: false)
     let textMaterial = SimpleMaterial(color: .black, isMetallic: false)
     let anchorPlane = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
@@ -27,17 +29,18 @@ struct ARViewContainer: UIViewRepresentable {
     func makeUIView(context: Context) -> ARView {
         
         let arView = ARView(frame: .zero)
-        arView.addCoaching()
-//        arView.debugOptions = [.showPhysics, .showAnchorGeometry, .showFeaturePoints]
+        context.coordinator.addCoaching(view:arView)
+        
+        //        arView.debugOptions = [.showPhysics, .showAnchorGeometry, .showFeaturePoints]
         
         anchorPlane.name = "AnchorPlane"
         
         // Bola
         let ballEntity = makeObject(arView: arView,
-                   name: "ball.usdc",
-                   entityScale: ballEntityScale,
-                   anchorScale: anchorScaleBall, 
-                   position: ballPosition)
+                                    name: "ball.usdc",
+                                    entityScale: ballEntityScale,
+                                    anchorScale: anchorScaleBall,
+                                    position: ballPosition)
         
         
         // Trave
@@ -52,10 +55,10 @@ struct ARViewContainer: UIViewRepresentable {
         for index in 0...5 {
             
             // Botões
-            let boxEntity = makeBox(arView: arView, 
+            let boxEntity = makeBox(arView: arView,
                                     name: "Slot \(index)",
                                     position: boxPosition[index])
-                   
+            
             //Textos
             makeText(arView: arView,
                      text: "\(palpites[index])",
@@ -66,11 +69,14 @@ struct ARViewContainer: UIViewRepresentable {
         
         arView.onTapAction(objectToMove: ballEntity, ballScale: ballEntityScale)
         
+
+        
         return arView
     }
-
+    
     //from SWiftUI to UIKit
     func updateUIView(_ arView: ARView, context: Context) {
+        
         
         let anchorSlots = arView.scene.anchors.filter { element in
             return element.name.contains("AnchorPlane")}
@@ -81,7 +87,7 @@ struct ARViewContainer: UIViewRepresentable {
         if let slots {
             
             for slot in slots {
-        
+                
                 let texts = slot.children.filter { element in
                     element.name.contains("Text")}
                 
@@ -99,23 +105,42 @@ struct ARViewContainer: UIViewRepresentable {
                 }
             }
         }
-
-        //from UIKit to SwifUi
-        func makeCoordinator() -> Coordinator {
-            return Coordinator(palpites: $palpites)
+    }
+    
+    //from UIKit to SwifUi
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(palpites: $palpites, timer: timer!)
+    }
+    
+    class Coordinator: NSObject, ARCoachingOverlayViewDelegate {
+        @Binding var palpites: [Int]
+        weak var timer: TimerController?
+        
+        
+        init(palpites: Binding<[Int]>, timer: TimerController){
+            self._palpites = palpites
+            self.timer = timer
         }
         
-        class Coordinator: NSObject{
-            @Binding var palpites: [Int]
+        public func addCoaching(view:ARView) {
             
+            let coachingOverlay = ARCoachingOverlayView()
+            coachingOverlay.delegate = self
+            coachingOverlay.session = view.session
+            coachingOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             
-            init(palpites: Binding<[Int]>){
-                self._palpites = palpites
-            }
+            coachingOverlay.goal = .horizontalPlane
+            view.addSubview(coachingOverlay)
+        }
+        
+        public func coachingOverlayViewDidDeactivate(_ coachingOverlayView: ARCoachingOverlayView) {
+            //Ready to add entities next?
+            timer?.startTimer()
         }
     }
     
-    public func makeObject(arView: ARView, name: String, entityScale: SIMD3<Float>, anchorScale: SIMD3<Float>, position: SIMD3<Float>) -> Entity {
+    
+    func makeObject(arView: ARView, name: String, entityScale: SIMD3<Float>, anchorScale: SIMD3<Float>, position: SIMD3<Float>) -> Entity {
         let entity = try! ModelEntity.load(named: name)
         let anchor = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0,0]))
         entity.scale = entityScale
@@ -148,3 +173,4 @@ struct ARViewContainer: UIViewRepresentable {
         
     }
 }
+

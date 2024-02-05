@@ -13,7 +13,7 @@ struct ContentView: View {
         ZStack {
             
             //AR View
-            ARViewContainer(palpites: $gameplayViewModel.palpites)
+            ARViewContainer(palpites: $gameplayViewModel.palpites, timer: timerController)
                 .edgesIgnoringSafeArea(.all)
                 .navigationBarBackButtonHidden(true)
             

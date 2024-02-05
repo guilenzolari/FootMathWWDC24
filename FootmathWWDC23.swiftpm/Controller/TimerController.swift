@@ -12,10 +12,6 @@ class TimerController: ObservableObject {
     @EnvironmentObject var audioPlayer:AudioPlayer
     @EnvironmentObject var gameController:GameController
 
-    init() {
-        startTimer()
-    }
-
     deinit {
         stopTimer()
     }
