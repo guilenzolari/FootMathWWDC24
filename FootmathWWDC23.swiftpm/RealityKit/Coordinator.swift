@@ -9,6 +9,7 @@ class Coordinator: NSObject, ARCoachingOverlayViewDelegate {
     weak var gameplayViewModel: GameplayViewModel?
     weak var gameController: GameController?
     weak var audioPlayer: AudioPlayer?
+    var jogaEmAndamento = false
     
     init(palpites: Binding<[Int]>,
          timer: TimerController,
@@ -82,32 +83,37 @@ class Coordinator: NSObject, ARCoachingOverlayViewDelegate {
     
     func jogada(index: Int, objectToMove: Entity, targetEntity: Entity, returnPositionEntity: Entity){
         
-        self.moveObject(objectToMove: objectToMove, targetEntity: targetEntity, scale: [0.04, 0.04, 0.04], duration: 1.0)
-        audioPlayer!.playEffect(effect: "soccer-kick", type: "mp3", volume: 7.0)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        if !jogaEmAndamento{
+            self.jogaEmAndamento = true
+            self.moveObject(objectToMove: objectToMove, targetEntity: targetEntity, scale: [0.04, 0.04, 0.04], duration: 1.0)
+            audioPlayer!.playEffect(effect: "soccer-kick", type: "mp3", volume: 7.0)
             
-            if let gameController = self.gameController,
-               let gameplayViewModel = self.gameplayViewModel {
-                if (index == gameplayViewModel.palpiteCorreto){
-                    
-                    self.audioPlayer?.playEffect(effect: "goal-scream", type: "mp3", volume: 2.0)
-                    gameController.armazenarResultado(ResultadoJogada.acertou)
-                    
-                } else {
-                    
-                    gameController.armazenarResultado(ResultadoJogada.errou)
-                    self.audioPlayer?.playEffect(effect: "missed-goal", type: "mp3", volume: 0.8)
-                }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                if let gameController = self.gameController,
+                   let gameplayViewModel = self.gameplayViewModel {
+                    if (index == gameplayViewModel.palpiteCorreto){
+                        
+                        self.audioPlayer?.playEffect(effect: "goal-scream", type: "mp3", volume: 2.0)
+                        gameController.armazenarResultado(ResultadoJogada.acertou)
+                        
+                    } else {
+                        
+                        gameController.armazenarResultado(ResultadoJogada.errou)
+                        self.audioPlayer?.playEffect(effect: "missed-goal", type: "mp3", volume: 0.8)
+                    }
                     
-                    gameplayViewModel.iniciarJogada(operacao: gameplayViewModel.operacao[gameController.indiceFaseJogo])
-                    self.moveObject(objectToMove: objectToMove, targetEntity: returnPositionEntity, scale: [1/0.04, 1/0.04, 1/0.04], duration: 0.001)
-
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        
+                        gameplayViewModel.iniciarJogada(operacao: gameplayViewModel.operacao[gameController.indiceFaseJogo])
+                        self.moveObject(objectToMove: objectToMove, targetEntity: returnPositionEntity, scale: [1/0.04, 1/0.04, 1/0.04], duration: 0.001)
+                        self.jogaEmAndamento = false
+                    }
+                    
                 }
-        
             }
         }
     }
+    
+    
 }

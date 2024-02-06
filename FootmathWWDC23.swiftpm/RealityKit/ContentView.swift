@@ -18,6 +18,10 @@ struct ContentView: View {
                             gameplayViewModel: gameplayViewModel)
                 .edgesIgnoringSafeArea(.all)
                 .navigationBarBackButtonHidden(true)
+                .onAppear{
+                    audioPlayer.playMusic(sound: "soccer-stadium", type: "mp3", volume: 0.5)
+                    audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 0.1)
+                }
             
             HStack{
                 
