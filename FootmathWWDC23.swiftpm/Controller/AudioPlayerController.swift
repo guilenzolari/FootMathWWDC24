@@ -41,7 +41,7 @@ class AudioPlayer: ObservableObject {
             }
         }
     }
-
+    
     func playEffect (effect: String, type: String, volume: Float){
         if let path = Bundle.main.path(forResource: effect, ofType: type) {
             do {

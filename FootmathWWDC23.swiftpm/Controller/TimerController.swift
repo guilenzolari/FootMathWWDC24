@@ -11,11 +11,11 @@ class TimerController: ObservableObject {
     private var timerIsOverCancellable: AnyCancellable?
     @EnvironmentObject var audioPlayer:AudioPlayer
     @EnvironmentObject var gameController:GameController
-
+    
     deinit {
         stopTimer()
     }
-
+    
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             guard let self = self else { return }
@@ -28,7 +28,7 @@ class TimerController: ObservableObject {
         
         tempo = tempoTotalTimer
         timerIsOver = false
-
+        
         // Utilize Combine para refletir as mudanças no contador
         cancellable = $tempo
             .receive(on: DispatchQueue.main)
@@ -44,7 +44,7 @@ class TimerController: ObservableObject {
                 // Faça algo quando o contador mudar, se necessário
             }
     }
-
+    
     func stopTimer() {
         timer?.invalidate()
         timer = nil
