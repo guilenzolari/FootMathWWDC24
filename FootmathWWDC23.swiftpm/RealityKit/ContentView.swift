@@ -27,7 +27,10 @@ struct ContentView: View {
                 
                 //Scoreboard
                 ZStack{
-                    Image("scoreboardBack")
+                    RoundedRectangle(cornerRadius: 20.0)
+                        .frame(width: 160, height: 40)
+                        .foregroundStyle(.ultraThinMaterial)
+                    
                     HStack(spacing: 12){
                         ForEach(gameController.resultados, id: \.self) {resultado in
                             switch resultado {
@@ -46,9 +49,16 @@ struct ContentView: View {
                 Spacer()
                 
                 //Timer
-                Text("\(timerController.tempo)")
-                    .foregroundColor(.white)
-                    .font(Font.custom("Minecraftia-Regular", size: 30))
+                ZStack{
+                    RoundedRectangle(cornerRadius: 10.0)
+                        .foregroundStyle(.ultraThinMaterial)
+                        .frame(width: 60, height: 40)
+                        .padding(.bottom, 20)
+                    
+                    Text("\(timerController.tempo)")
+                        .foregroundColor(.white)
+                        .font(Font.custom("Minecraftia-Regular", size: 30))
+                }
                 
             }.padding(.bottom, 640)
                 .padding(.horizontal, 22)
@@ -58,10 +68,17 @@ struct ContentView: View {
                 }
             
             //Operacao matematica
-            Text(gameplayViewModel.operacaoMatematica)
-                .padding(.bottom, 500)
-                .foregroundColor(.white)
-                .font(Font.custom("Minecraftia-Regular", size: 30))
+            ZStack{
+                RoundedRectangle(cornerRadius: 10.0)
+                    .frame(width: 170, height: 50)
+                    .padding(.bottom, 20)
+                    .foregroundStyle(.ultraThinMaterial)
+                
+                Text(gameplayViewModel.operacaoMatematica)
+                    .foregroundColor(.white)
+                    .font(Font.custom("Minecraftia-Regular", size: 30))
+            }.padding(.bottom, 500)
+
             
         }.onAppear{
             gameplayViewModel.iniciarJogada(operacao: gameplayViewModel.operacao[gameController.indiceFaseJogo])
