@@ -46,6 +46,7 @@ class Coordinator: NSObject, ARCoachingOverlayViewDelegate {
         Container.invisibleObject = invisibleObject
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(reconizer:)))
+        tapGestureRecognizer.delegate = self
         arView.addGestureRecognizer(tapGestureRecognizer)
     }
     
@@ -58,13 +59,17 @@ class Coordinator: NSObject, ARCoachingOverlayViewDelegate {
         //usa o toque para encontrar a posicao como CGPoint
         let location = reconizer.location(in: arView)
         
+        print(location)
+        
         if let entity = arView!.entity(at: location){
+            print("clicou em uma entidade \(entity)")
             if entity.name.contains("Slot"){
+                print("clicou em um slot")
                 let index = extractNumber(from: entity.name)
                 jogada(index: index!, objectToMove: objectToMove!, targetEntity: entity, returnPositionEntity: invisibleObject!)
             }
         } else {
-            print("No hit")
+            print("Nao clicou em uma entidade")
         }
     }
     
@@ -109,11 +114,21 @@ class Coordinator: NSObject, ARCoachingOverlayViewDelegate {
                         self.moveObject(objectToMove: objectToMove, targetEntity: returnPositionEntity, scale: [1/0.04, 1/0.04, 1/0.04], duration: 0.001)
                         self.jogaEmAndamento = false
                     }
-                    
                 }
             }
         }
     }
+}
+
+extension Coordinator:UIGestureRecognizerDelegate {
     
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        
+        print("Both recognized:")
+        print(gestureRecognizer)
+        print(otherGestureRecognizer)
+        
+        return true
+    }
     
 }

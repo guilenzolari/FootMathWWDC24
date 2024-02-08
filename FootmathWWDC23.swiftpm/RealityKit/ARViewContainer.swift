@@ -14,18 +14,18 @@ struct ARViewContainer: UIViewRepresentable {
     
     let boxMaterial = SimpleMaterial(color: .blue, isMetallic: false)
     let textMaterial = SimpleMaterial(color: .white, isMetallic: false)
-    let anchorPlane = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0.2, 0.2]))
+    let anchorPlane = AnchorEntity(.plane(.horizontal, classification: [.floor], minimumBounds: [0.2, 0.2]))
     let anchorScaleGoal: SIMD3<Float> = [2.4, 2.0, 2.0]
     let ballEntityScale: SIMD3<Float> = [0.02, 0.02, 0.02]
     let anchorScaleBall: SIMD3<Float> = [2.0, 2.0, 2.0]
-    let goalEntityScale: SIMD3<Float> = [0.05, 0.05, 0.05]
-    let goalPosition: SIMD3<Float> = [0, 0, -0.25]
-    let boxPosition: [SIMD3<Float>] = [[-0.2, 0.29, -0.35],
-                                       [0, 0.29, -0.35],
-                                       [0.2, 0.29, -0.35],
-                                       [-0.2, 0.1, -0.35],
-                                       [0, 0.1, -0.35],
-                                       [0.2, 0.1, -0.35]]
+    let goalEntityScale: SIMD3<Float> = [0.1, 0.1, 0.1]
+    let goalPosition: SIMD3<Float> = [0, 0, -0.7]
+    let boxPosition: [SIMD3<Float>] = [[-0.4, 0.58, -0.88],
+                                       [0, 0.58, -0.88],
+                                       [0.4, 0.58, -0.88],
+                                       [-0.4, 0.2, -0.88],
+                                       [0, 0.2, -0.88],
+                                       [0.4, 0.2, -0.88]]
     var ballPosition: SIMD3<Float> = [0, -0.01, 0.5]
     
     func makeUIView(context: Context) -> ARView {
@@ -33,7 +33,7 @@ struct ARViewContainer: UIViewRepresentable {
         let arView = ARView(frame: .zero)
         context.coordinator.addCoaching(view:arView)
         
-        //arView.debugOptions = [.showPhysics, .showAnchorGeometry, .showFeaturePoints]
+        arView.debugOptions = [.showPhysics, .showAnchorGeometry, .showFeaturePoints]
         
         anchorPlane.name = "AnchorPlane"
         
@@ -73,7 +73,7 @@ struct ARViewContainer: UIViewRepresentable {
                      textMaterial: textMaterial,
                      dadEntity: boxEntity)
         }
-        
+                
         context.coordinator.onTapAction(objectToMove: ballEntity, arView: arView, invisibleObject: invisibleBallEntity)
         
         return arView
@@ -134,7 +134,7 @@ struct ARViewContainer: UIViewRepresentable {
     }
     
     func makeText(arView: ARView, text: String, index: Int, textMaterial: SimpleMaterial, dadEntity: Entity){
-        let textMesh = MeshResource.generateText(text, extrusionDepth: 0.1, font: .systemFont(ofSize: 3.5), alignment: .center)
+        let textMesh = MeshResource.generateText(text, extrusionDepth: 0.1, font: .systemFont(ofSize: 5), alignment: .center)
         let textEntity = ModelEntity(mesh: textMesh, materials: [textMaterial])
         textEntity.scale = SIMD3<Float>(x: 0.03, y: 0.03, z: 0.1)
         textEntity.position = [-0.05, -0.06, 0.01]
@@ -143,11 +143,12 @@ struct ARViewContainer: UIViewRepresentable {
     }
     
     func makeBox(arView: ARView, name: String, position: SIMD3<Float>) -> Entity{
-        let box = MeshResource.generateBox(width: 0.16, height: 0.15, depth: 0.01)
+        let box = MeshResource.generateBox(width: 0.32, height: 0.3, depth: 0.01)
         let boxEntity = ModelEntity(mesh: box, materials: [boxMaterial])
         boxEntity.name = name
-        boxEntity.generateCollisionShapes(recursive: true)
         boxEntity.position = position
+        boxEntity.generateCollisionShapes(recursive: true)
+        
         anchorPlane.addChild(boxEntity)
         
         return boxEntity
