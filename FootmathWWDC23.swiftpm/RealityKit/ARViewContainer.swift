@@ -16,7 +16,7 @@ struct ARViewContainer: UIViewRepresentable {
     let textMaterial = SimpleMaterial(color: .white, isMetallic: false)
     let anchorPlane = AnchorEntity(.plane(.horizontal, classification: [.floor], minimumBounds: [0.2, 0.2]))
     let anchorScaleGoal: SIMD3<Float> = [2.4, 2.0, 2.0]
-    let ballEntityScale: SIMD3<Float> = [0.02, 0.02, 0.02]
+    let ballEntityScale: SIMD3<Float> = [0.04, 0.04, 0.04]
     let anchorScaleBall: SIMD3<Float> = [2.0, 2.0, 2.0]
     let goalEntityScale: SIMD3<Float> = [0.1, 0.1, 0.1]
     let goalPosition: SIMD3<Float> = [0, 0, -0.7]
@@ -33,7 +33,7 @@ struct ARViewContainer: UIViewRepresentable {
         let arView = ARView(frame: .zero)
         context.coordinator.addCoaching(view:arView)
         
-        arView.debugOptions = [.showPhysics, .showAnchorGeometry, .showFeaturePoints]
+//        arView.debugOptions = [.showPhysics, .showAnchorGeometry, .showFeaturePoints]
         
         anchorPlane.name = "AnchorPlane"
         

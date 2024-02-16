@@ -15,14 +15,17 @@ struct GameplayHudView: View {
                     .foregroundStyle(.ultraThinMaterial)
                 
                 HStack(spacing: 12){
-                    ForEach(gameController.resultados, id: \.self) {resultado in
+                    ForEach(gameController.resultados.indices, id: \.self) {index in
+                        let resultado = gameController.resultados[index]
+                        let id = "result_\(index)"
+                        
                         switch resultado {
                         case ResultadoJogada.acertou:
-                            Image("GreenSignal")
+                            Image("GreenSignal").id(id)
                         case ResultadoJogada.errou:
-                            Image("RedSignal")
+                            Image("RedSignal").id(id)
                         case ResultadoJogada.vazio:
-                            Image("GraySignal")
+                            Image("GraySignal").id(id)
                         }
                     }
                 }

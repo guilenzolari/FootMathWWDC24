@@ -18,6 +18,7 @@ class GameController: ObservableObject {
     
     func fimDaJogada(tempo: Int) {
         if indiceContaFase == 5 || tempo == 0 {
+//            timerController.stopTimer()
             print("Fim da Fase")
             if indiceFaseJogo == 2 && contadorDeAcertos() >= 3 {
                 print("Ir pra fase de vitória")

@@ -90,7 +90,7 @@ class Coordinator: NSObject, ARCoachingOverlayViewDelegate {
         
         if !jogaEmAndamento{
             self.jogaEmAndamento = true
-            self.moveObject(objectToMove: objectToMove, targetEntity: targetEntity, scale: [0.04, 0.04, 0.04], duration: 1.0)
+            self.moveObject(objectToMove: objectToMove, targetEntity: targetEntity, scale: [0.08, 0.08, 0.08], duration: 1.0)
             audioPlayer!.playEffect(effect: "soccer-kick", type: "mp3", volume: 7.0)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {

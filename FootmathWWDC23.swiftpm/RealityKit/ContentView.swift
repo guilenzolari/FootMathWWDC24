@@ -29,7 +29,6 @@ struct ContentView: View {
                 GameplayHudView(operacaoMatematica: $gameplayViewModel.operacaoMatematica)
             }
             
-            
             NavigationLink("", destination: VitoriaFasesView(), isActive: $gameController.navigationLinkVitoriaFasesView)
             
         }.onAppear{
@@ -38,4 +37,3 @@ struct ContentView: View {
         }
     }
 }
-
