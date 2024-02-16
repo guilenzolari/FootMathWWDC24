@@ -7,64 +7,43 @@ struct GameplayHudView: View {
     @EnvironmentObject var gameController: GameController
     
     var body: some View {
-        HStack{
-            //Scoreboard
-            ZStack{
-                RoundedRectangle(cornerRadius: 20.0)
-                    .frame(width: 160, height: 40)
-                    .foregroundStyle(.ultraThinMaterial)
+        VStack{
+            HStack{
+                //Scoreboard
+                ScoreboardHUD(resultados: $gameController.resultados)
                 
-                HStack(spacing: 12){
-                    ForEach(gameController.resultados.indices, id: \.self) {index in
-                        let resultado = gameController.resultados[index]
-                        let id = "result_\(index)"
-                        
-                        switch resultado {
-                        case ResultadoJogada.acertou:
-                            Image("GreenSignal").id(id)
-                        case ResultadoJogada.errou:
-                            Image("RedSignal").id(id)
-                        case ResultadoJogada.vazio:
-                            Image("GraySignal").id(id)
-                        }
-                    }
-                }
-            }
-            .padding(.bottom, 20)
+                Spacer()
+                
+                //Timer
+                ZStack{
+                    RoundedRectangle(cornerRadius: 10.0)
+                        .foregroundStyle(.ultraThinMaterial)
+                        .frame(width: 60, height: 40)
+                    
+                    Text("\(timerController.tempo)")
+                        .foregroundColor(.white)
+                        .font(.system(size: 33))
+//                        .font(Font.custom("8-bit Arcade In", size: 30))
+                        .onChange(of: timerController.tempo) { newTempo in
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                gameController.fimDaJogada(tempo: newTempo)}}
+                }.padding(.top, 15)
+            }.padding(.horizontal, 24)
             
-            Spacer()
-            
-            //Timer
+            //Operacao matematica
             ZStack{
                 RoundedRectangle(cornerRadius: 10.0)
+                    .frame(width: 170, height: 50)
                     .foregroundStyle(.ultraThinMaterial)
-                    .frame(width: 60, height: 40)
-                    .padding(.bottom, 20)
                 
-                Text("\(timerController.tempo)")
+                Text(operacaoMatematica)
                     .foregroundColor(.white)
-                    .font(Font.custom("Minecraftia-Regular", size: 30))
-            }
+                    .font(.system(size: 33))
+//                    .font(Font.custom("Minecraftia-Regular", size: 30))
+                
+            }.padding(.top, 24)
             
-        }.padding(.bottom, 640)
-            .padding(.horizontal, 22)
-            .onChange(of: timerController.tempo) { newTempo in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    gameController.fimDaJogada(tempo: newTempo)}
-            }
-        
-        //Operacao matematica
-        ZStack{
-            RoundedRectangle(cornerRadius: 10.0)
-                .frame(width: 170, height: 50)
-                .padding(.bottom, 20)
-                .foregroundStyle(.ultraThinMaterial)
-            
-            Text(operacaoMatematica)
-                .foregroundColor(.white)
-                .font(Font.custom("Minecraftia-Regular", size: 30))
-            
-        }.padding(.bottom, 500)
+        }
     }
 }
 

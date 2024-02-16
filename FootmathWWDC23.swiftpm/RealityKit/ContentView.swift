@@ -8,7 +8,7 @@ struct ContentView: View {
     @EnvironmentObject var gameController: GameController
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             
             //AR View
             ARViewContainer(palpites: $gameplayViewModel.palpites,
