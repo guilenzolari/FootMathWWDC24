@@ -1,7 +1,5 @@
 import SwiftUI
 import RealityKit
-import ARKit
-import UIKit
 
 struct ContentView: View {
     @StateObject var gameplayViewModel = GameplayViewModel()

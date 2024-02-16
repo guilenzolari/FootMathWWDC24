@@ -1,5 +1,4 @@
 import SwiftUI
-import CoreText
 
 @main
 struct MyApp: App {

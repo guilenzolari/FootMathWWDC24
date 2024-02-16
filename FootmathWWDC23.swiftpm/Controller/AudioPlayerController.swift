@@ -1,14 +1,5 @@
-//
-//  AudioPlayerController.swift
-//  Capivarias
-//
-//  Created by Guilherme Ferreira Lenzolari on 24/10/23.
-//
-
 import Foundation
 import AVKit
-import AVFoundation
-
 
 class AudioPlayer: ObservableObject {
     

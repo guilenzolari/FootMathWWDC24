@@ -1,7 +1,5 @@
 import SwiftUI
 import RealityKit
-import ARKit
-import UIKit
 
 struct ARViewContainer: UIViewRepresentable {
     

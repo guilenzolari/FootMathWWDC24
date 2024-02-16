@@ -1,7 +1,6 @@
 import SwiftUI
 import RealityKit
 import ARKit
-import UIKit
 
 class Coordinator: NSObject, ARCoachingOverlayViewDelegate {
     @Binding var palpites: [Int]
