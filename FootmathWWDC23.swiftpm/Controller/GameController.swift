@@ -9,6 +9,7 @@ class GameController: ObservableObject {
     @Published var resultados: [ResultadoJogada] = [ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio]
     @Published var indiceFaseJogo: Int = 0
     @Published var indiceContaFase: Int = 0
+    @Published var didFoundPlan = false
     
     func armazenarResultado(_ novoResultado: ResultadoJogada) {
         resultados.remove(at: indiceContaFase)

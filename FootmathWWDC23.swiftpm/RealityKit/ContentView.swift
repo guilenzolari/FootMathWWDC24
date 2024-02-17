@@ -21,10 +21,12 @@ struct ContentView: View {
                     audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 0.1)
                 }
             
-            if gameController.navigationLinkGameOverView {
-                GameOverHudView()
-            } else{
-                GameplayHudView(operacaoMatematica: $gameplayViewModel.operacaoMatematica)
+            if gameController.didFoundPlan{
+                if gameController.navigationLinkGameOverView {
+                    GameOverHudView()
+                } else{
+                    GameplayHudView(operacaoMatematica: $gameplayViewModel.operacaoMatematica)
+                }
             }
             
             NavigationLink("", destination: VitoriaFasesView(), isActive: $gameController.navigationLinkVitoriaFasesView)
