@@ -135,7 +135,7 @@ struct ARViewContainer: UIViewRepresentable {
         let textMesh = MeshResource.generateText(text, extrusionDepth: 0.1, font: .systemFont(ofSize: 5), alignment: .center)
         let textEntity = ModelEntity(mesh: textMesh, materials: [textMaterial])
         textEntity.scale = SIMD3<Float>(x: 0.03, y: 0.03, z: 0.1)
-        textEntity.position = [-0.05, -0.06, 0.01]
+        textEntity.position = [-0.06, -0.06, 0.01]
         textEntity.name = "Text \(index)"
         dadEntity.addChild(textEntity)
     }

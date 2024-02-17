@@ -19,19 +19,21 @@ class GameController: ObservableObject {
     
     func fimDaJogada(tempo: Int) {
         if indiceContaFase == 5 || tempo == 0 {
-            timer?.stopTimer()
-            print("Fim da Fase")
-            if indiceFaseJogo == 2 && contadorDeAcertos() >= 3 {
-                didFoundPlan = false
-                print("Ir pra fase de vitória")
-                faseDeVitoria()
-            }else if contadorDeAcertos() >= 3 {
-                didFoundPlan = false
-                print("Ir pra próxima fase de vitória")
-                proximaFase()
-            }else {
-                print("Ir pro Game Over")
-                gameOver()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+                self.timer?.stopTimer()
+                print("Fim da Fase")
+                if self.indiceFaseJogo == 2 && self.contadorDeAcertos() >= 3 {
+                    self.didFoundPlan = false
+                    print("Ir pra fase de vitória")
+                    self.faseDeVitoria()
+                }else if self.contadorDeAcertos() >= 3 {
+                    self.didFoundPlan = false
+                    print("Ir pra próxima fase de vitória")
+                    self.proximaFase()
+                }else {
+                    print("Ir pro Game Over")
+                    gameOver()
+                }
             }
         }
     }
