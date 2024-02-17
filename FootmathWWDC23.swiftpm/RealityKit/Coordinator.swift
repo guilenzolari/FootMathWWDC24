@@ -35,6 +35,8 @@ class Coordinator: NSObject, ARCoachingOverlayViewDelegate {
     
     public func coachingOverlayViewDidDeactivate(_ coachingOverlayView: ARCoachingOverlayView) {
         //Ready to add entities next?
+        gameController?.didFoundPlan = false
+        timer?.stopTimer()
         timer?.startTimer()
         gameController?.didFoundPlan = true
     }

@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 class GameController: ObservableObject {
-    @EnvironmentObject var timerController:TimerController
+    weak var timer: TimerController?
     @Published var navigationLinkProximaFase = false
     @Published var navigationLinkGameOverView = false
     @Published var navigationLinkVitoriaFasesView = false
@@ -19,12 +19,14 @@ class GameController: ObservableObject {
     
     func fimDaJogada(tempo: Int) {
         if indiceContaFase == 5 || tempo == 0 {
-//            timerController.stopTimer()
+            timer?.stopTimer()
             print("Fim da Fase")
             if indiceFaseJogo == 2 && contadorDeAcertos() >= 3 {
+                didFoundPlan = false
                 print("Ir pra fase de vitória")
                 faseDeVitoria()
             }else if contadorDeAcertos() >= 3 {
+                didFoundPlan = false
                 print("Ir pra próxima fase de vitória")
                 proximaFase()
             }else {

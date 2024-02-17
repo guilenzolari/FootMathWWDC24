@@ -52,8 +52,8 @@ class GameplayViewModel: ObservableObject {
     
     func subtracao(numero1: Int, numero2: Int) -> Int {
         if numero1 <= numero2 {
-            self.numero1 = Int.random(in: 1...10)
-            self.numero2 = Int.random(in: 1...10)
+            self.numero1 = Int.random(in: 1...20)
+            self.numero2 = Int.random(in: 1...20)
             return subtracao(numero1: self.numero1, numero2: self.numero2)
         } else {
             return numero1 - numero2
@@ -73,7 +73,7 @@ class GameplayViewModel: ObservableObject {
         case "soma":
             intervalo = 1...20
         case "subtracao":
-            intervalo = 1...10
+            intervalo = 1...20
         case "multiplicacao":
             intervalo = 1...100
         default:

@@ -19,6 +19,7 @@ struct GameOverHudView: View {
                 audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 1.0)
                 gameController.navigationLinkProximaFase = false
                 gameController.navigationLinkGameOverView = false
+                gameController.didFoundPlan = false
             } label: {
                 Image("playAgain")
             }
