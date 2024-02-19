@@ -16,14 +16,14 @@ struct ARViewContainer: UIViewRepresentable {
     let anchorScaleGoal: SIMD3<Float> = [2.4, 2.0, 2.0]
     let ballEntityScale: SIMD3<Float> = [0.04, 0.04, 0.04]
     let anchorScaleBall: SIMD3<Float> = [2.0, 2.0, 2.0]
-    let goalEntityScale: SIMD3<Float> = [0.1, 0.1, 0.1]
-    let goalPosition: SIMD3<Float> = [0, 0, -0.7]
-    let boxPosition: [SIMD3<Float>] = [[-0.4, 0.58, -0.88],
-                                       [0, 0.58, -0.88],
-                                       [0.4, 0.58, -0.88],
-                                       [-0.4, 0.2, -0.88],
+    let goalEntityScale: SIMD3<Float> = [0.03, 0.021, 0.022]
+    let goalPosition: SIMD3<Float> = [0, 0, -0.9]
+    let boxPosition: [SIMD3<Float>] = [[-0.4, 0.2, -0.88],
                                        [0, 0.2, -0.88],
-                                       [0.4, 0.2, -0.88]]
+                                       [0.4, 0.2, -0.88],
+                                       [-0.4, -0.2, -0.88],
+                                       [0, -0.2, -0.88],
+                                       [0.4, -0.2, -0.88]]
     var ballPosition: SIMD3<Float> = [0, -0.01, 0.5]
     
     func makeUIView(context: Context) -> ARView {
@@ -41,7 +41,7 @@ struct ARViewContainer: UIViewRepresentable {
                                     entityScale: ballEntityScale,
                                     anchorScale: anchorScaleBall,
                                     position: ballPosition)
-        
+
         let invisibleBallEntity = makeObject(arView: arView,
                                     name: "ball.usdc",
                                     entityScale: [0.001, 0.001, 0.001],
@@ -50,7 +50,7 @@ struct ARViewContainer: UIViewRepresentable {
 
         // Trave
         _ = makeObject(arView: arView,
-                       name: "gol.usdc",
+                       name: "goalSoccer.usdc",
                        entityScale: goalEntityScale,
                        anchorScale: anchorScaleGoal,
                        position: goalPosition)
@@ -123,6 +123,8 @@ struct ARViewContainer: UIViewRepresentable {
         let entity = try! ModelEntity.load(named: name)
         let anchor = AnchorEntity(.plane(.horizontal, classification: [.floor, .table], minimumBounds: [0,0]))
         entity.scale = entityScale
+        let radians = 90.0 * Float.pi / 180.0
+        entity.transform.rotation *= simd_quatf(angle: radians, axis: SIMD3<Float>(0,0,1))
         anchor.addChild(entity)
         anchor.position = position
         anchor.scale = anchorScale
