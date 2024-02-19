@@ -23,7 +23,6 @@ struct GameplayHudView: View {
                     Text("\(timerController.tempo)")
                         .foregroundColor(.white)
                         .font(.system(size: 33))
-//                        .font(Font.custom("8-bit Arcade In", size: 30))
                         .onChange(of: timerController.tempo) { newTempo in
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                                 gameController.fimDaJogada(tempo: newTempo)}}
@@ -39,7 +38,6 @@ struct GameplayHudView: View {
                 Text(operacaoMatematica)
                     .foregroundColor(.white)
                     .font(.system(size: 33))
-//                    .font(Font.custom("Minecraftia-Regular", size: 30))
                 
             }.padding(.top, 24)
             

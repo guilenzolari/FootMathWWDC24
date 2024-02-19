@@ -16,14 +16,6 @@ struct MyApp: App {
         } else {
             print("Font 8-bit Arcade In not found")
         }
-        if let fontURL = Bundle.main.url(forResource: "Minecraftia-Regular", withExtension: "ttf") {
-            do {
-                CTFontManagerRegisterFontsForURL(fontURL as CFURL, CTFontManagerScope.process, nil)
-                print("Font Minecraftia-Regular successfully")
-            }
-        } else {
-            print("Font Minecraftia-Regular not found")
-        }
     }
     
     var body: some Scene {

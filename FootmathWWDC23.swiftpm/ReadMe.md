@@ -2,7 +2,6 @@
 
 ## Fonts references
     - 8-bit Arcade In (https://www.dafont.com/8-bit-arcade.font)
-    - 8BIT WONDER (https://www.dafont.com/8bit-wonder.font)
 
 ## Devices
     The app can be used on the following devices:
