@@ -4,15 +4,17 @@ struct MenuView: View {
     @State var navigantionLinkAtivoJogar = false
     @State var botaoAtivado = true
     @EnvironmentObject var audioPlayer:AudioPlayer
+    @StateObject var menu = MenuViewModel()
     
     var body: some View {
         GeometryReader {geometry in
             ZStack {
-                Image("BackMenu")
+                Image(menu.images[menu.currentImageIndex])
                     .resizable()
                     .ignoresSafeArea()
                     .onAppear{
                         audioPlayer.playMusic(sound: "latin-music", type: "mp3", volume: 0.1)
+                        menu.startImageChangeTimer(intervalInSeconds: 0.5)
                     }
                 
                 HStack{
