@@ -53,7 +53,6 @@ let package = Package(
                 .copy("Resources/Sounds/rocket-sound.mp3"),
                 .copy("Resources/Sounds/chalk-black-board.mp3"),
                 .copy("RKResources/ball.usdc"),
-                .copy("RKResources/gol.usdc"),
                 .copy("RKResources/goalSoccer.usdc")
             ]
         )
