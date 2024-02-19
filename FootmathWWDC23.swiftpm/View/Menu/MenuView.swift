@@ -16,7 +16,7 @@ struct MenuView: View {
                         audioPlayer.playMusic(sound: "latin-music", type: "mp3", volume: 0.1)
                         menu.startImageChangeTimer(intervalInSeconds: 0.5)
                     }
-                
+
                 HStack{
                     Button {
                         audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 0.1)
