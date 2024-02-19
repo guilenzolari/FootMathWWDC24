@@ -6,16 +6,27 @@ class HistoriaViewModel: ObservableObject {
     @Published var etapaAtual = 0
     @Published var currentImageIndex = 0
     
-    let historia0 = ["Menu inicial0", "Menu inicial1", "Menu inicial2"]
-    let historia1 = ["Menu inicial0", "Menu inicial1", "Menu inicial2"]
-    let historia2 = ["Menu inicial0", "Menu inicial1", "Menu inicial2"]
-    let historia3 = ["Menu inicial0", "Menu inicial1", "Menu inicial2"]
-    let historia4 = ["Menu inicial0", "Menu inicial1", "Menu inicial2"]
+    let historia0 = ["Storyboard 1"]
+    let historia1 = ["Historia2.0", "Historia2.1", "Historia2.2", "Historia2.3"]
+    let historia2 = ["Storyboard 3"]
+    let historia3 = ["História4.0", "História4.1"]
+    let historia4 = ["Storyboard 5"]
     
-    @Published var background = ["Storyboard 1", "Storyboard 2", "Storyboard 3", "Storyboard 4", "Storyboard 5"]
-    @Published var sounds = ["space-sound", "soccer-stadium", "goal-scream", "chalk-black-board","rocket-sound"]
+    @Published var background = [["Storyboard 1"], ["Historia2.0", "Historia2.1", "Historia2.2", "Historia2.3"], ["Storyboard 3"], ["História4.0", "História4.1"], ["Storyboard 5"]]
+    @Published var sounds = ["space-sound", "soccer-stadium", "goal-scream", "chalk-black-board", "rocket-sound"]
     @Published var button = ["next verde", "next azul", "next verde", "next azul", "next verde"]
 
+
+    
+    func startImageChangeTimer(intervalInSeconds: TimeInterval) {
+        _ = Timer.scheduledTimer(withTimeInterval: intervalInSeconds, repeats: true) { timer in
+            if self.currentImageIndex < self.background[self.etapaAtual].count - 1 {
+                self.currentImageIndex += 1
+            } else {
+                self.currentImageIndex = 0
+            }
+        }
+    }
     
     func avancar() -> Bool{
         if etapaAtual < background.count - 1{
@@ -26,3 +37,4 @@ class HistoriaViewModel: ObservableObject {
         }
     }
 }
+

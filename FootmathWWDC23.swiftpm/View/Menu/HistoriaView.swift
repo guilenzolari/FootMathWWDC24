@@ -14,16 +14,18 @@ struct HistoriaView: View {
                 
                 Color.black.edgesIgnoringSafeArea(.all)
                 
-                Image(historia.background[historia.etapaAtual])
+                Image(historia.background[historia.etapaAtual][historia.currentImageIndex])
                     .resizable()
                     .ignoresSafeArea()
                     .onAppear{
                         audioPlayer.playEffect(effect: historia.sounds[historia.etapaAtual], type: "mp3", volume: 1.0)
+                        historia.startImageChangeTimer(intervalInSeconds: 0.5)
                     }
                 
                 VStack{
                     
                     Button {
+                        historia.currentImageIndex = 0
                         navigantionLinkAtivo = !historia.avancar()
                         audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 1.0)
                         audioPlayer.playEffect(effect: historia.sounds[historia.etapaAtual], type: "mp3", volume: 1.0)
