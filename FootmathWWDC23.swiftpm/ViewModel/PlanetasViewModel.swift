@@ -21,7 +21,7 @@ class PlanetasViewModel: ObservableObject {
                 self.currentImageIndex += 1
             } else {
                 timer.invalidate()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0)  {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5)  {
                     navigation.wrappedValue = true
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 4.0)  {
