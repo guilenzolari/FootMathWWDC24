@@ -75,7 +75,7 @@ class GameplayViewModel: ObservableObject {
         case "subtracao":
             intervalo = 1...20
         case "multiplicacao":
-            intervalo = 1...100
+            intervalo = 1...99
         default:
             fatalError("Operação não suportada")
         }
