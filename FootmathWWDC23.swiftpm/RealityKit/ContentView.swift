@@ -8,32 +8,37 @@ struct ContentView: View {
     @EnvironmentObject var gameController: GameController
     
     var body: some View {
-        ZStack(alignment: .top) {
+        GeometryReader {geometry in
             
-            //AR View
-            ARViewContainer(palpites: $gameplayViewModel.palpites,
-                            timer: timerController,
-                            gameplayViewModel: gameplayViewModel)
+            ZStack(alignment: .top) {
+                
+                //AR View
+                ARViewContainer(palpites: $gameplayViewModel.palpites,
+                                timer: timerController,
+                                gameplayViewModel: gameplayViewModel)
                 .edgesIgnoringSafeArea(.all)
                 .navigationBarBackButtonHidden(true)
                 .onAppear{
                     audioPlayer.playMusic(sound: "soccer-stadium", type: "mp3", volume: 0.5)
                     audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 0.1)
                 }
-            
-            if gameController.didFoundPlan{
-                if gameController.navigationLinkGameOverView {
-                    GameOverHudView()
+                
+                if gameController.didFoundPlan{
+                    if gameController.navigationLinkGameOverView {
+                        GameOverHudView()
+                    } else{
+                        GameplayHudView(operacaoMatematica: $gameplayViewModel.operacaoMatematica)
+                    }
                 } else{
-                    GameplayHudView(operacaoMatematica: $gameplayViewModel.operacaoMatematica)
+                    AvisoDeteccaoPlanoHUD()
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.8)
                 }
+                
+                NavigationLink("", destination: VitoriaFasesView(), isActive: $gameController.navigationLinkVitoriaFasesView)
+                
+            }.onAppear{
+                gameplayViewModel.iniciarJogada(operacao: gameplayViewModel.operacao[gameController.indiceFaseJogo])
             }
-            
-            NavigationLink("", destination: VitoriaFasesView(), isActive: $gameController.navigationLinkVitoriaFasesView)
-            
-        }.onAppear{
-            gameplayViewModel.iniciarJogada(operacao: gameplayViewModel.operacao[gameController.indiceFaseJogo])
-
         }
     }
 }

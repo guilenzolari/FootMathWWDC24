@@ -1,5 +1,6 @@
 import SwiftUI
 import RealityKit
+import ARKit
 
 struct ARViewContainer: UIViewRepresentable {
     
@@ -29,10 +30,14 @@ struct ARViewContainer: UIViewRepresentable {
     func makeUIView(context: Context) -> ARView {
         
         let arView = ARView(frame: .zero)
-        context.coordinator.addCoaching(view:arView)
         
+//        let config = AROrientationTrackingConfiguration()
+//        arView.session.run(config, options: [.removeExistingAnchors, .resetTracking])
+
 //        arView.debugOptions = [.showPhysics, .showAnchorGeometry, .showFeaturePoints]
-        
+
+        context.coordinator.addCoaching(view:arView)
+
         anchorPlane.name = "AnchorPlane"
         
         // Bola
