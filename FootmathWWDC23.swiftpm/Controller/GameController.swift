@@ -6,6 +6,7 @@ class GameController: ObservableObject {
     @Published var navigationLinkProximaFase = false
     @Published var navigationLinkGameOverView = false
     @Published var navigationLinkVitoriaFasesView = false
+    @Published var navigantionLinkAtivoAboutMe = false
     @Published var resultados: [ResultadoJogada] = [ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio]
     @Published var indiceFaseJogo: Int = 0
     @Published var indiceContaFase: Int = 0

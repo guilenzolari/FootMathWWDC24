@@ -2,7 +2,6 @@ import SwiftUI
 
 @main
 struct MyApp: App {
-    
     @StateObject var gameController = GameController()
     @StateObject var audioPlayer = AudioPlayer()
     @StateObject var timerController = TimerController()
