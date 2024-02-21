@@ -23,7 +23,6 @@ struct MenuView: View {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                             navigantionLinkAtivoJogar = true}
                         botaoAtivado = false
-                        audioPlayer.stopAudio()
                     } label: {
                         Image("jogar")
                     }

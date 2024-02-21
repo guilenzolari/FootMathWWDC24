@@ -16,6 +16,7 @@ struct VitoriaFasesView: View {
                     .aspectRatio(contentMode: .fill)
                     .edgesIgnoringSafeArea(.top)
                     .onAppear{
+                        audioPlayer.playMusic(sound: "latin-music", type: "mp3", volume: 0.1)
                         audioPlayer.playEffect(effect: "goal-scream", type: "mp3", volume: 3.5)
                         vitoriaFases.startImageChangeTimer(intervalInSeconds: 0.5)
                     }

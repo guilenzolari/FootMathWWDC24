@@ -7,7 +7,7 @@ class HistoriaViewModel: ObservableObject {
     @Published var currentImageIndex = 0
     
     @Published var background = [["Storyboard 1"], ["Historia2.0", "Historia2.1", "Historia2.2", "Historia2.3"], ["Storyboard 3"], ["História4.0", "História4.1"], ["Storyboard 5"]]
-    @Published var sounds = ["", "soccer-stadium", "goal-scream", "chalk-black-board", "rocket-sound"]
+    @Published var sounds = [" ", "soccer-stadium", "goal-scream", "chalk-black-board", "rocket-sound"]
     @Published var button = ["next verde", "next azul", "next verde", "next azul", "next verde"]
 
 

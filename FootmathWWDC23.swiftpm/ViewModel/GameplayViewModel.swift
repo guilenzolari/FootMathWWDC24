@@ -28,7 +28,7 @@ class GameplayViewModel: ObservableObject {
             operacaoMatematica = "\(numero1) - \(numero2) = ?"
         case "multiplicacao":
             resultado = multiplicacao(numero1: numero1, numero2: numero2)
-            operacaoMatematica = "\(numero1) x \(numero2)"
+            operacaoMatematica = "\(numero1) x \(numero2) = ?"
         default:
             print("Erro ao selecionar a operação")
         }
