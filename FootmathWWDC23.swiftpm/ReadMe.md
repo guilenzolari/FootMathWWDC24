@@ -1,10 +1,23 @@
 #  Informations and References
 
-## Fonts references
-    - 8-bit Arcade In (https://www.dafont.com/8-bit-arcade.font)
+## References
+    ### Fonts
+        - 8-bit Arcade In (https://www.dafont.com/8-bit-arcade.font)
+        - Minecraftia (https://www.dafont.com/pt/minecraftia.font)
+    ### Audios - all audios were taken from Pixabay (https://pixabay.com/pt/music/)
+        - apito-futebol
+        - chalk-black-board
+        - click-botao
+        - goal-scream
+        - latin-music
+        - missed-goal
+        - rocket-sound
+        - soccer-kick
+        - soccer-stadium
+    ### 3D Models
+        - Goal (https://www.cgtrader.com/free-3d-models/sports/equipment/standard-futsal-goal)
 
 ## Devices
-    The app can be used on the following devices:
     - iPhone
 
 ## About my App
