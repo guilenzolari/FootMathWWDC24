@@ -5,11 +5,12 @@ struct AvisoDeteccaoPlanoHUD: View {
         ZStack{
             RoundedRectangle(cornerRadius: 10.0)
                 .foregroundStyle(.ultraThinMaterial)
-                .frame(width: 310, height: 55)
+                .frame(width: 310, height: 80)
             
-            Text("Find a wide, unobstructed surface")
+            Text("Find a wide, unobstructed and horizontal surface. Press PLAY after the goal appears.")
                 .foregroundColor(.white)
                 .font(.system(size: 20))
+                .padding(.horizontal, 40)
         }
     }
 }

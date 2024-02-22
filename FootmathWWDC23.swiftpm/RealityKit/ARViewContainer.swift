@@ -11,7 +11,9 @@ struct ARViewContainer: UIViewRepresentable {
     @EnvironmentObject var audioPlayer: AudioPlayer
     @EnvironmentObject var gameController: GameController
     
-    let boxMaterial = SimpleMaterial(color: .blue, isMetallic: false)
+    let boxMaterials = [SimpleMaterial(color: .systemGreen, isMetallic: false),
+                        SimpleMaterial(color: .blue, isMetallic: false),
+                        SimpleMaterial(color: .orange, isMetallic: false)]
     let textMaterial = SimpleMaterial(color: .white, isMetallic: false)
     let anchorPlane = AnchorEntity(.plane(.horizontal, classification: [.floor], minimumBounds: [0.2, 0.2]))
     let anchorScaleGoal: SIMD3<Float> = [2.4, 2.0, 2.0]
@@ -77,7 +79,7 @@ struct ARViewContainer: UIViewRepresentable {
                      dadEntity: boxEntity)
         }
                 
-        context.coordinator.onTapAction(objectToMove: ballEntity, arView: arView, invisibleObject: invisibleBallEntity)
+            context.coordinator.onTapAction(objectToMove: ballEntity, arView: arView, invisibleObject: invisibleBallEntity)
         
         return arView
         
@@ -149,7 +151,7 @@ struct ARViewContainer: UIViewRepresentable {
     
     func makeBox(arView: ARView, name: String, position: SIMD3<Float>) -> Entity{
         let box = MeshResource.generateBox(width: 0.32, height: 0.3, depth: 0.01)
-        let boxEntity = ModelEntity(mesh: box, materials: [boxMaterial])
+        let boxEntity = ModelEntity(mesh: box, materials: [boxMaterials[gameController.indiceFaseJogo]])
         boxEntity.name = name
         boxEntity.position = position
         boxEntity.generateCollisionShapes(recursive: true)
@@ -158,5 +160,6 @@ struct ARViewContainer: UIViewRepresentable {
         
         return boxEntity
     }
+    
 }
 

@@ -10,7 +10,7 @@ class GameController: ObservableObject {
     @Published var resultados: [ResultadoJogada] = [ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio]
     @Published var indiceFaseJogo: Int = 0
     @Published var indiceContaFase: Int = 0
-    @Published var didFoundPlan = false
+    @Published var didGameplayStart = false
     
     func armazenarResultado(_ novoResultado: ResultadoJogada) {
         resultados.remove(at: indiceContaFase)
@@ -24,11 +24,11 @@ class GameController: ObservableObject {
                 self.timer?.stopTimer()
                 print("Fim da Fase")
                 if self.indiceFaseJogo == 2 && self.contadorDeAcertos() >= 3 {
-                    self.didFoundPlan = false
+                    self.didGameplayStart = false
                     print("Ir pra fase de vitória")
                     self.faseDeVitoria()
                 }else if self.contadorDeAcertos() >= 3 {
-                    self.didFoundPlan = false
+                    self.didGameplayStart = false
                     print("Ir pra próxima fase de vitória")
                     self.proximaFase()
                 }else {

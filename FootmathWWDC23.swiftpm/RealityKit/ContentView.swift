@@ -23,17 +23,35 @@ struct ContentView: View {
                     audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 0.1)
                 }
                 
-                if gameController.didFoundPlan{
+                if gameController.didGameplayStart{
                     if gameController.navigationLinkGameOverView {
                         GameOverHudView()
                     } else{
                         GameplayHudView(operacaoMatematica: $gameplayViewModel.operacaoMatematica)
                     }
                 } else{
-                    AvisoDeteccaoPlanoHUD()
-                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.8)
+                    ZStack{
+                        Rectangle()
+                            .foregroundColor(.black)
+                            .opacity(0.3)
+                            .edgesIgnoringSafeArea(.all)
+                        
+                        AvisoDeteccaoPlanoHUD()
+                            .position(x: geometry.size.width / 2, y: geometry.size.height * 0.7)
+                        
+                        Button {
+                            gameController.didGameplayStart = false
+                            timerController.stopTimer()
+                            timerController.startTimer()
+                            gameController.didGameplayStart = true
+                            audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 0.1)
+                        } label: {
+                            Image("jogar")
+                                .scaleEffect(0.6)
+                        }.position(x: geometry.size.width / 2, y: geometry.size.height * 0.85)
+                    }
                 }
-                
+                        
                 NavigationLink("", destination: VitoriaFasesView(), isActive: $gameController.navigationLinkVitoriaFasesView)
                 
             }.onAppear{
