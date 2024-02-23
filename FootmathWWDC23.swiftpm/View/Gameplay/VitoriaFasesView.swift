@@ -22,15 +22,15 @@ struct VitoriaFasesView: View {
                     }
                 
                 VStack{
-                    Button {
-                        audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 0.1)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                            navigantionLinkAtivoMenu = true}
-                        botaoAtivado = false
-                    } label: {
-                        Image("menu")
-                    }.disabled(!botaoAtivado)
-                    .padding(.bottom, 10)
+//                    Button {
+//                        audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 0.1)
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+//                            navigantionLinkAtivoMenu = true}
+//                        botaoAtivado = false
+//                    } label: {
+//                        Image("menu")
+//                    }.disabled(!botaoAtivado)
+//                    .padding(.bottom, 10)
                     
                     Button {
                         audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 0.1)

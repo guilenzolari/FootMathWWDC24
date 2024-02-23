@@ -20,7 +20,7 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView  {
-                MenuView()
+                VitoriaFasesView()
             }
             .navigationViewStyle(.stack)
             .environmentObject(audioPlayer)
