@@ -8,13 +8,13 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "Footmath",
+    name: "FootMath",
     platforms: [
         .iOS("15.2")
     ],
     products: [
         .iOSApplication(
-            name: "Footmath",
+            name: "FootMath",
             targets: ["AppModule"],
             bundleIdentifier: "com.gui.Footmath",
             teamIdentifier: "8JTQ9M4J69",
