@@ -52,7 +52,7 @@ struct ContentView: View {
                     }
                 }
                         
-                NavigationLink("", destination: VitoriaFasesView(), isActive: $gameController.navigationLinkVitoriaFasesView)
+                NavigationLink("", destination: VitoriaFasesView(), isActive: $gameController.navigationLinkGameplayToVitoria)
                 
             }.onAppear{
                 gameplayViewModel.iniciarJogada(operacao: gameplayViewModel.operacao[gameController.indiceFaseJogo])

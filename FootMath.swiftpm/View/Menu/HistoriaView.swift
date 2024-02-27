@@ -3,9 +3,8 @@ import SwiftUI
 
 struct HistoriaView: View {
     
-    @State var navigantionLinkAtivo = false
     @EnvironmentObject var audioPlayer:AudioPlayer
-
+    @EnvironmentObject var gameController:GameController
     @StateObject var historia = HistoriaViewModel()
     
     var body: some View{
@@ -26,15 +25,15 @@ struct HistoriaView: View {
                     
                     Button {
                         historia.currentImageIndex = 0
-                        navigantionLinkAtivo = !historia.avancar()
-                        audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 1.0)
+                        gameController.navigationLinkHistoriaToPlanetas = !historia.avancar()
+                        audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 0.1)
                         audioPlayer.playEffect(effect: historia.sounds[historia.etapaAtual], type: "mp3", volume: 1.0)
                     } label: {
                         Image(historia.button[historia.etapaAtual])
                     }.padding(.top, geometry.size.height * 8/10)
                 }
                 
-                NavigationLink("",destination: PlanetasView() ,isActive: $navigantionLinkAtivo)
+                NavigationLink("",destination: PlanetasView() ,isActive: $gameController.navigationLinkHistoriaToPlanetas)
                 
             }.navigationBarBackButtonHidden(true)
         }

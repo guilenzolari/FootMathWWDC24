@@ -22,8 +22,8 @@ struct GameOverHudView: View {
                 Spacer()
                 
                 Button {
-                    audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 1.0)
-                    gameController.navigationLinkProximaFase = false
+                    audioPlayer.playEffect(effect: "apito-futebol", type: "mp3", volume: 0.1)
+                    gameController.navigationLinkPlanetasToGameplay = false
                     gameController.navigationLinkGameOverView = false
                     gameController.didGameplayStart = false
                 } label: {

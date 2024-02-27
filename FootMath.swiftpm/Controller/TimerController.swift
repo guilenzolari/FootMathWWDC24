@@ -4,7 +4,6 @@ import Combine
 class TimerController: ObservableObject {
     var tempoTotalTimer = 40
     @Published var tempo: Int = 0
-    @Published var navigationLinkAtivo = false
     @Published var timerIsOver = false
     private var timer: Timer?
     private var cancellable: AnyCancellable?

@@ -13,13 +13,13 @@ struct PlanetasView: View {
                 .resizable()
                 .ignoresSafeArea()
                 .onAppear {
-                    planetas.startImageChangeTimer(intervalInSeconds: 0.3, fase: gameController.indiceFaseJogo, navigation: $gameController.navigationLinkProximaFase)
+                    planetas.startImageChangeTimer(intervalInSeconds: 0.3, fase: gameController.indiceFaseJogo, navigation: $gameController.navigationLinkPlanetasToGameplay)
                     audioPlayer.playMusic(sound: "rocket-sound", type: "mp3", volume: 0.1)
 
                 }
         }.navigationBarBackButtonHidden(true)
         
-        NavigationLink("", destination: ContentView(), isActive: $gameController.navigationLinkProximaFase)
+        NavigationLink("", destination: ContentView(), isActive: $gameController.navigationLinkPlanetasToGameplay)
     }
 }
 

@@ -3,9 +3,11 @@ import SwiftUI
 
 class GameController: ObservableObject {
     weak var timer: TimerController?
-    @Published var navigationLinkProximaFase = false
+    @Published var navigationLinkMenuToHistoria = false
+    @Published var navigationLinkHistoriaToPlanetas = false
+    @Published var navigationLinkPlanetasToGameplay = false
     @Published var navigationLinkGameOverView = false
-    @Published var navigationLinkVitoriaFasesView = false
+    @Published var navigationLinkGameplayToVitoria = false
     @Published var navigantionLinkAtivoAboutMe = false
     @Published var resultados: [ResultadoJogada] = [ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio, ResultadoJogada.vazio]
     @Published var indiceFaseJogo: Int = 0
@@ -57,7 +59,7 @@ class GameController: ObservableObject {
     func proximaFase(){
         indiceFaseJogo += 1
         resetarFase()
-        navigationLinkProximaFase = false
+        navigationLinkPlanetasToGameplay = false
     }
     
     func gameOver(){
@@ -66,7 +68,7 @@ class GameController: ObservableObject {
     }
     
     func faseDeVitoria(){
-        navigationLinkVitoriaFasesView = true
+        navigationLinkGameplayToVitoria = true
         resetarJogo()
     }
 }
